@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 
 namespace CSGSIWebClient.Models
 {
-    public interface IUserService
+    public class JWT
     {
-        User GetUser();
-        void SetUser(User user);
-        Login GetLogIn();
-        void SetLogIn(Login login);
+        public string access_token { get; set; }
     }
 }

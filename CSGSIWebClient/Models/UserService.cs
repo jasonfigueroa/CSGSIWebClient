@@ -44,12 +44,12 @@ namespace CSGSIWebClient.Models
             _user.password = user.password;
         }
 
-        public Login GetLoggedIn()
+        public Login GetLogIn()
         {
             return _login;
         }
 
-        public void SetLoggedIn(Login login)
+        public void SetLogIn(Login login)
         {
             _login.LoggedIn = login.LoggedIn;
         }
