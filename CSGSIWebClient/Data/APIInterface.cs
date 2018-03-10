@@ -29,7 +29,7 @@ namespace CSGSIWebClient.Data
             return true;
         }
 
-        static async Task<JWT> Auth(User user)
+        private static async Task<JWT> Auth(User user)
         {
             string url = "http://localhost:5000/auth";
 
@@ -66,13 +66,13 @@ namespace CSGSIWebClient.Data
             return JsonConvert.DeserializeObject<CSMatch>(data);
         }
 
-        public static HomeViewModel GetCSMatches(User user)
+        public static MatchesViewModel GetCSMatches(User user)
         {
             JWT jwt = Auth(user).GetAwaiter().GetResult();
             return GetCSMatchesAsync(jwt).GetAwaiter().GetResult();
         }
 
-        private static async Task<HomeViewModel> GetCSMatchesAsync(JWT jwt)
+        private static async Task<MatchesViewModel> GetCSMatchesAsync(JWT jwt)
         {
             string url = $"http://localhost:5000/match/list";
 
@@ -86,7 +86,44 @@ namespace CSGSIWebClient.Data
 
             string data = await content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<HomeViewModel>(data);
+            return JsonConvert.DeserializeObject<MatchesViewModel>(data);
+        }
+
+        public static SteamId GetSteamId(User user)
+        {
+            JWT jwt = Auth(user).GetAwaiter().GetResult();
+            return GetSteamIdAsync(jwt).GetAwaiter().GetResult();
+        }
+
+        private static async Task<SteamId> GetSteamIdAsync(JWT jwt)
+        {
+            string url = "http://localhost:5000/user/steamid";
+
+            HttpClient client = new HttpClient();
+
+            client.DefaultRequestHeaders.Add("Authorization", $"JWT {jwt.access_token}");
+
+            HttpResponseMessage res = await client.GetAsync(url);
+
+            HttpContent content = res.Content;
+
+            string data = await content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<SteamId>(data);
+        }
+
+        public static void RegisterUser(Register register)
+        {
+            RegisterUserAsync(register).GetAwaiter().GetResult();
+        }
+
+        private static async Task RegisterUserAsync(Register register)
+        {
+            string url = "http://localhost:5000/register";
+
+            HttpClient client = new HttpClient();
+
+            HttpResponseMessage res = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(register), Encoding.UTF8, "application/json"));
         }
     }
 }

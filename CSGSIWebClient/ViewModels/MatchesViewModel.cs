@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CSGSIWebClient.ViewModels
 {
-    public class HomeViewModel
+    public class MatchesViewModel
     {
         public string Title { get; set; }
 

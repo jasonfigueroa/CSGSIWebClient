@@ -21,14 +21,14 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">CSGO Stat Trakr</a>
             </div>
             <div class="navbar-collapse collapse">
-                @if (UserService.GetLogIn().LoggedIn == true)
-                {
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Contacts" asp-action="Index">Contacts</a></li>
-                        <li><a asp-area="" asp-controller="Companies" asp-action="Index">Companies</a></li>
-                        <li><a asp-area="" asp-controller="Jobs" asp-action="Index">Jobs</a></li>
-                    </ul>
-                }
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="About" asp-action="Index">About</a></li>
+                    <li><a asp-area="" asp-controller="TechnicalDetails" asp-action="Index">Technical Details</a></li>
+                    @if (UserService.GetLogIn().LoggedIn == true)
+                    {
+                        <li><a asp-area="" asp-controller="Matches" asp-action="Index">Stats</a></li>
+                    }
+                </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>

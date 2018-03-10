@@ -23,11 +23,6 @@ namespace CSGSIWebClient.Controllers
         {
             _userService = userService;
 
-            //if (_userService.GetUser() == null)
-            //{
-            //    _user = new User();
-            //}
-
             _user = _userService.GetUser();
         }
 
@@ -46,33 +41,18 @@ namespace CSGSIWebClient.Controllers
                 {
                     _userService.SetUser(user);
 
-                    // testing
-                    //Login login = new Login();
-                    //login.LoggedIn = true;
-
                     _userService.SetLogIn(new Login { LoggedIn = true });
-                    // end test
 
-                    return RedirectToAction("SuccessfulLogin");
+                    SteamId steamId = APIInterface.GetSteamId(user);
+
+                    _userService.SetSteamId(steamId);
+
+                    return RedirectToAction("Index", "Matches");
                 }
             }
 
             return View(user);
         }
-
-        //static async Task<JWT> Auth(User user)
-        //{
-        //    string url = "http://localhost:5000/auth";
-
-        //    using (HttpClient client = new HttpClient())
-
-        //    using (HttpResponseMessage res = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json")))
-        //    using (HttpContent content = res.Content)
-        //    {
-        //        string data = await content.ReadAsStringAsync();
-        //        return JsonConvert.DeserializeObject<JWT>(data);
-        //    }
-        //}
 
         public IActionResult SuccessfulLogin()
         {

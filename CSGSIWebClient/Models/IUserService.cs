@@ -11,5 +11,8 @@ namespace CSGSIWebClient.Models
         void SetUser(User user);
         Login GetLogIn();
         void SetLogIn(Login login);
+        SteamId GetSteamId();
+        void SetSteamId(SteamId steamId);
+        void Logout();
     }
 }

@@ -11,10 +11,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CSGSIWebClient.Controllers
 {
-    public class HomeController : Controller
+    public class ProfileController : Controller
     {
+        private IUserService _userService;
+        private ProfileViewModel _profileViewModel;
+
+        public ProfileController(IUserService userService)
+        {
+            _userService = userService;
+            _profileViewModel = new ProfileViewModel();
+        }
+        
         public IActionResult Index()
         {
+            SteamApiInterface.GetSteamPlayer(_userService.GetSteamId());
             return View();
         }
     }

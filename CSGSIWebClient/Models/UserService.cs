@@ -9,6 +9,7 @@ namespace CSGSIWebClient.Models
     {
         private User _user;
         private Login _login;
+        private SteamId _steamId;
 
         public UserService()
         {
@@ -21,16 +22,26 @@ namespace CSGSIWebClient.Models
             {
                 InitializeLogin();
             }
+
+            if (_steamId == null)
+            {
+                InitializeSteamId();
+            }
         }
 
-        public void InitializeUser()
+        private void InitializeUser()
         {
             _user = new User();
         }
 
-        public void InitializeLogin()
+        private void InitializeLogin()
         {
             _login = new Login { LoggedIn = false };
+        }
+
+        private void InitializeSteamId()
+        {
+            _steamId = new SteamId();
         }
 
         public User GetUser()
@@ -52,6 +63,27 @@ namespace CSGSIWebClient.Models
         public void SetLogIn(Login login)
         {
             _login.LoggedIn = login.LoggedIn;
+        }
+
+        public SteamId GetSteamId()
+        {
+            return _steamId;
+        }
+
+        public void SetSteamId(SteamId steamId)
+        {
+            _steamId.steam_id = steamId.steam_id;
+        }
+
+        public void Logout()
+        {
+            _user = null;
+            _login = null;
+            _steamId = null;
+
+            InitializeUser();
+            InitializeLogin();
+            InitializeSteamId();
         }
     }
 }

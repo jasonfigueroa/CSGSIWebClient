@@ -13,3 +13,7 @@
 .clickable {
     cursor: pointer;
 }
+
+.center-text {
+    text-align: center;
+}

@@ -1,6 +1,6 @@
 ﻿@if (UserService.GetLogIn().LoggedIn == true)
 {
-    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+    <form asp-area="" asp-controller="Logout" asp-action="Index" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserService.GetUser().username!</a>
@@ -14,7 +14,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
+        <li><a asp-area="" asp-controller="Register" asp-action="Index">Register</a></li>
+        <li><a asp-area="" asp-controller="Login" asp-action="Index">Log in</a></li>
     </ul>
 }
