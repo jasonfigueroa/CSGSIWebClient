@@ -1,4 +1,5 @@
 ﻿using CSGSIWebClient.Models;
+using CSGSIWebClient.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,29 @@ namespace CSGSIWebClient.Data
             string data = await content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<CSMatch>(data);
+        }
+
+        public static HomeViewModel GetCSMatches(User user)
+        {
+            JWT jwt = Auth(user).GetAwaiter().GetResult();
+            return GetCSMatchesAsync(jwt).GetAwaiter().GetResult();
+        }
+
+        private static async Task<HomeViewModel> GetCSMatchesAsync(JWT jwt)
+        {
+            string url = $"http://localhost:5000/match/list";
+
+            HttpClient client = new HttpClient();
+
+            client.DefaultRequestHeaders.Add("Authorization", $"JWT {jwt.access_token}");
+
+            HttpResponseMessage res = await client.GetAsync(url);
+
+            HttpContent content = res.Content;
+
+            string data = await content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<HomeViewModel>(data);
         }
     }
 }

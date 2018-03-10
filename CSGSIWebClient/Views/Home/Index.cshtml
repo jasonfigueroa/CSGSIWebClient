@@ -1,27 +1,50 @@
 ﻿@model HomeViewModel
 
+@using CSGSIWebClient.Utilities;
+
+@{ 
+    var mapDict = Model.mapUtilities.MapDict;
+    var teamDict = Model.teamUtilities.TeamDict;
+}
+
 <h2>@Model.Title</h2>
 
-@foreach (var match in Model.Matches)
-{
 <div>
-    <h2><a asp-controller="Home" asp-action="Details" asp-route-id="@match.id">Match Id: @match.id</a></h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Map</th>
+                <th scope="col">Team</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var match in Model.Matches)
+            {
+                <tr class="clickable" id="match__@match.id">
+                    <th scope="row">@DateUtilities.ConvertFromUnixTimestamp(match.datetime_start)</th>
+                    <td>@match.minutes_played min</td>
 
-    @*<p>match_id: @match.id</p>
-    <p>user_id: @match.user_id</p>
-    <p>datetime_start: @match.datetime_start</p>
-    <p>minutes_played: @match.minutes_played</p>
-    <p>map_name: @match.map_name</p>
-    <p>team: @match.team</p>
-    <p>round_win_team: @match.round_win_team</p>
+                    @if (@mapDict.ContainsKey(match.map_name))
+                    {
+                        <td>@mapDict[match.map_name]</td>
+                    }
+                    else
+                    {
+                        <td>@match.map_name</td>
+                    }
 
-    <h2>Match Stats</h2>
-
-    <p>match_stats_id: @match.matchStats.id</p>
-    <p>kills: @match.matchStats.kills</p>
-    <p>assists: @match.matchStats.assists</p>
-    <p>deaths: @match.matchStats.deaths</p>
-    <p>mvps: @match.matchStats.mvps</p>
-    <p>score: @match.matchStats.score</p>*@
+                    @if (teamDict.ContainsKey(match.team))
+                    {
+                        <td>@teamDict[match.team]</td>
+                    }
+                    else
+                    {
+                        <td>@match.team</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
-}

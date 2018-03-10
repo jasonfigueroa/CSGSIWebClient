@@ -14,14 +14,16 @@ namespace CSGSIWebClient.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IMatchRepository _matchRepository;
+        //private readonly IMatchRepository _matchRepository;
         private User _user;
+        //private List<CSMatch> _matches;
+        //private HomeViewModel _homeViewModel;
 
-        public HomeController(IUserService userService, IMatchRepository matchRepository)
+        public HomeController(IUserService userService)
         {
             _userService = userService;
             _user = userService.GetUser();
-            _matchRepository = matchRepository;
+            //_matchRepository = matchRepository;
         }
 
         // GET: /<controller>/
@@ -32,13 +34,14 @@ namespace CSGSIWebClient.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var matches = _matchRepository.GetAllMatches();
+            //HomeViewModel homeViewModel = new HomeViewModel()
+            //{
+            //    Title = "Match Data"
+            //};
 
-            var homeViewModel = new HomeViewModel()
-            {
-                Title = "Match Data",
-                Matches = matches.ToList()
-            };
+            HomeViewModel homeViewModel = APIInterface.GetCSMatches(_user);
+
+            homeViewModel.Title = "Matches";
 
             return View(homeViewModel);
         }
@@ -51,7 +54,8 @@ namespace CSGSIWebClient.Controllers
             }
 
             //var match = _matchRepository.GetMatchById(id);
-            var match = APIInterface.GetCSMatch(_user, id);
+            CSMatch match = APIInterface.GetCSMatch(_user, id);
+            //CSMatch match = _homeViewModel.Matches.Where(m => m.id == id).FirstOrDefault();
 
             if (match == null)
             {
