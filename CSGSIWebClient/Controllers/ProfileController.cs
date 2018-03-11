@@ -24,8 +24,13 @@ namespace CSGSIWebClient.Controllers
         
         public IActionResult Index()
         {
-            SteamApiInterface.GetSteamPlayer(_userService.GetSteamId());
-            return View();
+            if (_userService.GetLogIn().LoggedIn == false)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            SteamPlayer steamPlayer = SteamApiInterface.GetSteamPlayer(_userService.GetSteamId());
+            return View(steamPlayer);
         }
     }
 }

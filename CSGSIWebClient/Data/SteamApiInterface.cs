@@ -31,7 +31,7 @@ namespace CSGSIWebClient.Data
 
             var something = JsonConvert.DeserializeObject<RootObject>(data);
 
-            return new SteamPlayer();
+            return something.response.players[0];
         }
     }
 }
