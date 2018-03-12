@@ -13,6 +13,8 @@ namespace CSGSIWebClient.Models
         void SetLogIn(Login login);
         SteamId GetSteamId();
         void SetSteamId(SteamId steamId);
+        SteamPlayer GetSteamPlayer();
+        void SetSteamPlayer(SteamPlayer steamPlayer);
         void Logout();
     }
 }

@@ -66,13 +66,13 @@ namespace CSGSIWebClient.Data
             return JsonConvert.DeserializeObject<CSMatch>(data);
         }
 
-        public static MatchesViewModel GetCSMatches(User user)
+        public static CSMatchList GetCSMatches(User user)
         {
             JWT jwt = Auth(user).GetAwaiter().GetResult();
             return GetCSMatchesAsync(jwt).GetAwaiter().GetResult();
         }
 
-        private static async Task<MatchesViewModel> GetCSMatchesAsync(JWT jwt)
+        private static async Task<CSMatchList> GetCSMatchesAsync(JWT jwt)
         {
             string url = $"http://localhost:5000/match/list";
 
@@ -86,7 +86,7 @@ namespace CSGSIWebClient.Data
 
             string data = await content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<MatchesViewModel>(data);
+            return JsonConvert.DeserializeObject<CSMatchList>(data);
         }
 
         public static SteamId GetSteamId(User user)

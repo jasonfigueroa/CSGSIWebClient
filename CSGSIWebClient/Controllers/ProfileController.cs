@@ -14,6 +14,7 @@ namespace CSGSIWebClient.Controllers
     public class ProfileController : Controller
     {
         private IUserService _userService;
+        private User _user;
         private ProfileViewModel _profileViewModel;
 
         public ProfileController(IUserService userService)
@@ -29,8 +30,16 @@ namespace CSGSIWebClient.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            SteamPlayer steamPlayer = SteamApiInterface.GetSteamPlayer(_userService.GetSteamId());
-            return View(steamPlayer);
+            _user = _userService.GetUser();
+
+            SteamPlayer steamPlayer = _userService.GetSteamPlayer();
+
+            CSMatchList cSMatchList = APIInterface.GetCSMatches(_user);
+
+            _profileViewModel.SteamPlayer = steamPlayer;
+            _profileViewModel.CSMatchList = cSMatchList.Matches;
+
+            return View(_profileViewModel);
         }
     }
 }

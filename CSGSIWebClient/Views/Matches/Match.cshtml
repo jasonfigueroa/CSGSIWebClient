@@ -1,23 +1,76 @@
-﻿@model CSMatch
+﻿@model MatchViewModel
 
-<h1>Match Details</h1>
+@using CSGSIWebClient.Utilities;
 
-<div>
-    <h2>Match Id: @Model.id</h2>
-    <p>match_id: @Model.id</p>
-    <p>user_id: @Model.user_id</p>
-    <p>datetime_start: @Model.datetime_start</p>
-    <p>minutes_played: @Model.minutes_played</p>
-    <p>map_name: @Model.map_name</p>
-    <p>team: @Model.team</p>
-    <p>round_win_team: @Model.round_win_team</p>
+@{
+    var mapDict = Model.mapUtilities.MapDict;
+    var teamDict = Model.teamUtilities.TeamDict;
 
-    <h2>Match Stats</h2>
+    var kdr = Model.GetKDR();
+}
 
-    <p>match_stats_id: @Model.matchStats["id"]</p>
-    <p>kills: @Model.matchStats["kills"]</p>
-    <p>assists: @Model.matchStats["assists"]</p>
-    <p>deaths: @Model.matchStats["deaths"]</p>
-    <p>mvps: @Model.matchStats["mvps"]</p>
-    <p>score: @Model.matchStats["score"]</p>
-</div>
+<h1>@Model.Title</h1>
+
+<h2>Match Information</h2>
+
+<dl class="dl-horizontal">
+    <dt>Match Start: </dt>
+    <dd>@DateUtilities.ConvertFromUnixTimestamp(Model.Match.datetime_start)</dd>
+
+    <dt>Duration: </dt>
+    <dd>@Model.Match.minutes_played minutes</dd>
+
+    <dt>Map: </dt>
+    @if (@mapDict.ContainsKey(Model.Match.map_name))
+    {
+        <dd>@mapDict[Model.Match.map_name]</dd>
+    }
+    else
+    {
+        <dd>@Model.Match.map_name</dd>
+    }    
+
+    <dt>Team: </dt>
+    @if (@teamDict.ContainsKey(Model.Match.team))
+    {
+        <dd>@teamDict[Model.Match.team]</dd>
+    }
+    else
+    {
+        <dd>@Model.Match.team</dd>
+    }
+
+    <dt>Win/Loss: </dt>
+    @if (Model.Match.team != Model.Match.round_win_team)
+    {
+        <dd>Loss</dd>
+    }
+    else
+    {
+        <dd>Win</dd>
+    }
+</dl>
+
+<h2>Player Stats</h2>
+
+<dl class="dl-horizontal">
+    <dt>KDR: </dt>
+    <dd>@kdr</dd>
+
+    <dt>Kills: </dt>
+    <dd>@Model.Match.matchStats["kills"]</dd>
+
+    <dt>Assists: </dt>
+    <dd>@Model.Match.matchStats["assists"]</dd>
+
+    <dt>Deaths: </dt>
+    <dd>@Model.Match.matchStats["deaths"]</dd>
+
+    <dt>MVPs: </dt>
+    <dd>@Model.Match.matchStats["mvps"]</dd>
+
+    <dt>Score: </dt>
+    <dd>@Model.Match.matchStats["score"]</dd>
+</dl>
+
+

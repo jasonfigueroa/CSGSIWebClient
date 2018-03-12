@@ -47,6 +47,10 @@ namespace CSGSIWebClient.Controllers
 
                     _userService.SetSteamId(steamId);
 
+                    SteamPlayer steamPlayer = SteamApiInterface.GetSteamPlayer(steamId);
+
+                    _userService.SetSteamPlayer(steamPlayer);
+
                     return RedirectToAction("Index", "Matches");
                 }
             }

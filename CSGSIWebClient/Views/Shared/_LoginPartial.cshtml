@@ -3,6 +3,9 @@
     <form asp-area="" asp-controller="Logout" asp-action="Index" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
+                <img id="nav-avatar" src="@UserService.GetSteamPlayer().avatar" />
+            </li>
+            <li>                
                 <a asp-area="" asp-controller="Profile" asp-action="Index" title="Profile">Hello @UserService.GetUser().username!</a>
             </li>
             <li>

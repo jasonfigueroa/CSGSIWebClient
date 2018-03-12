@@ -29,9 +29,12 @@ namespace CSGSIWebClient.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            MatchesViewModel matchesViewModel = APIInterface.GetCSMatches(_user);
-
-            matchesViewModel.Title = "Matches";
+            CSMatchList cSMatchList = APIInterface.GetCSMatches(_user);
+            MatchesViewModel matchesViewModel = new MatchesViewModel()
+            {
+                Title = "Matches",
+                Matches = cSMatchList.Matches
+            };
 
             return View(matchesViewModel);
         }
@@ -43,14 +46,18 @@ namespace CSGSIWebClient.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            CSMatch match = APIInterface.GetCSMatch(_user, id);
+            MatchViewModel matchViewModel = new MatchViewModel()
+            {
+                Title = "Game Details",
+                Match = APIInterface.GetCSMatch(_user, id)
+            };            
 
-            if (match == null)
+            if (matchViewModel.Match == null)
             {
                 return NotFound();
             }
 
-            return View(match);
+            return View(matchViewModel);
         }
     }
 }

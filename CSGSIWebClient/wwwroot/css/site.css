@@ -17,3 +17,19 @@
 .center-text {
     text-align: center;
 }
+
+#nav-avatar {
+    padding-top: 9px;
+}
+
+#profile-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+@media (max-width: 767px) {
+    #nav-avatar {
+        display: none;
+    }
+}
