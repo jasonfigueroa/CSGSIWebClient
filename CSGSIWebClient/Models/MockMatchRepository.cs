@@ -24,9 +24,9 @@ namespace CSGSIWebClient.Models
             MatchStats matchStats3 = new MatchStats { id = 3, match_id = 3, kills = 5, assists = 3, deaths = 7, mvps = 1, score = 19 };
             _matches = new List<CSMatch>
             {
-                new CSMatch {id = 1, user_id = 1, datetime_start = 1520306680634, minutes_played = 22, map_name = "de_dust2", team = "T", round_win_team = "T", matchStats = matchStats1},
-                new CSMatch {id = 2, user_id = 1, datetime_start = 1520309112, minutes_played = 28, map_name = "de_dust2", team = "T", round_win_team = "T", matchStats = matchStats2},
-                new CSMatch {id = 3, user_id = 1, datetime_start = 1520311061, minutes_played = 21, map_name = "de_dust2", team = "T", round_win_team = "T", matchStats = matchStats3}
+                //new CSMatch {id = 1, user_id = 1, datetime_start = 1520306680634, minutes_played = 22, map_name = "de_dust2", team = "T", round_win_team = "T", matchStats = matchStats1},
+                //new CSMatch {id = 2, user_id = 1, datetime_start = 1520309112, minutes_played = 28, map_name = "de_dust2", team = "T", round_win_team = "T", matchStats = matchStats2},
+                //new CSMatch {id = 3, user_id = 1, datetime_start = 1520311061, minutes_played = 21, map_name = "de_dust2", team = "T", round_win_team = "T", matchStats = matchStats3}
             };
         }
 

@@ -1,0 +1,28 @@
+﻿@model ProfileViewModel
+
+@using CSGSIWebClient.Utilities;
+
+@{
+    float kdr = Model.GetKDR();
+    CSMatch lastMatch = Model.GetLastMatch();
+}
+
+<div id="profile-div">
+    <div>
+        <h1>@Model.SteamPlayer.personaname</h1>
+
+        <img src="@Model.SteamPlayer.avatarfull" />
+    </div>
+
+    <div>
+        <dl class="dl-horizontal">
+            <dt>KDR: </dt>
+            <dd>@kdr</dd>
+
+            <dt>Last Match: </dt>
+            <dd><a asp-controller="Matches" asp-action="Match" asp-route-id="@lastMatch.id">@DateUtilities.ConvertFromUnixTimestamp(lastMatch.datetime_start)</a></dd>
+        </dl>
+    </div>
+</div>
+
+

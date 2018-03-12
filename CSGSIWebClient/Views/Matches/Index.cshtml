@@ -1,0 +1,50 @@
+﻿@model MatchesViewModel
+
+@using CSGSIWebClient.Utilities;
+
+@{ 
+    var mapDict = Model.mapUtilities.MapDict;
+    var teamDict = Model.teamUtilities.TeamDict;
+}
+
+<h2>@Model.Title</h2>
+
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Map</th>
+                <th scope="col">Team</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var match in Model.Matches)
+            {
+                <tr class="clickable" id="match__@match.id">
+                    <th scope="row">@DateUtilities.ConvertFromUnixTimestamp(match.datetime_start)</th>
+                    <td>@match.minutes_played min</td>
+
+                    @if (@mapDict.ContainsKey(match.map_name))
+                    {
+                        <td>@mapDict[match.map_name]</td>
+                    }
+                    else
+                    {
+                        <td>@match.map_name</td>
+                    }
+
+                    @if (teamDict.ContainsKey(match.team))
+                    {
+                        <td>@teamDict[match.team]</td>
+                    }
+                    else
+                    {
+                        <td>@match.team</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

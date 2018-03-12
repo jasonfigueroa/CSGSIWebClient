@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using CSGSIWebClient.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using CSGSIWebClient.Data;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +22,6 @@ namespace CSGSIWebClient.Controllers
         public LoginController(IUserService userService)
         {
             _userService = userService;
-
-            if (_userService.GetUser() == null)
-            {
-                _user = new User();
-            }
 
             _user = _userService.GetUser();
         }
@@ -38,8 +37,22 @@ namespace CSGSIWebClient.Controllers
         {
             if(ModelState.IsValid)
             {
-                _userService.SetUser(user);
-                return RedirectToAction("SuccessfulLogin");
+                if(APIInterface.IsValidUser(user))
+                {
+                    _userService.SetUser(user);
+
+                    _userService.SetLogIn(new Login { LoggedIn = true });
+
+                    SteamId steamId = APIInterface.GetSteamId(user);
+
+                    _userService.SetSteamId(steamId);
+
+                    SteamPlayer steamPlayer = SteamApiInterface.GetSteamPlayer(steamId);
+
+                    _userService.SetSteamPlayer(steamPlayer);
+
+                    return RedirectToAction("Index", "Matches");
+                }
             }
 
             return View(user);
@@ -48,9 +61,9 @@ namespace CSGSIWebClient.Controllers
         public IActionResult SuccessfulLogin()
         {
             // to control user routing
-            if (_userService.GetLoggedIn().LoggedIn == false)
+            if (_userService.GetLogIn().LoggedIn == false)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
             }
             return View();
         }

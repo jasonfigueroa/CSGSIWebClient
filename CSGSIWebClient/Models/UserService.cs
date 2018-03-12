@@ -9,6 +9,8 @@ namespace CSGSIWebClient.Models
     {
         private User _user;
         private Login _login;
+        private SteamId _steamId;
+        private SteamPlayer _steamPlayer;
 
         public UserService()
         {
@@ -21,16 +23,36 @@ namespace CSGSIWebClient.Models
             {
                 InitializeLogin();
             }
+
+            if (_steamId == null)
+            {
+                InitializeSteamId();
+            }
+
+            if (_steamPlayer == null)
+            {
+                InitializeSteamPlayer();
+            }
         }
 
-        public void InitializeUser()
+        private void InitializeUser()
         {
             _user = new User();
         }
 
-        public void InitializeLogin()
+        private void InitializeLogin()
         {
             _login = new Login { LoggedIn = false };
+        }
+
+        private void InitializeSteamId()
+        {
+            _steamId = new SteamId();
+        }
+
+        private void InitializeSteamPlayer()
+        {
+            _steamPlayer = new SteamPlayer();
         }
 
         public User GetUser()
@@ -44,14 +66,47 @@ namespace CSGSIWebClient.Models
             _user.password = user.password;
         }
 
-        public Login GetLoggedIn()
+        public Login GetLogIn()
         {
             return _login;
         }
 
-        public void SetLoggedIn(Login login)
+        public void SetLogIn(Login login)
         {
             _login.LoggedIn = login.LoggedIn;
+        }
+
+        public SteamId GetSteamId()
+        {
+            return _steamId;
+        }
+
+        public void SetSteamId(SteamId steamId)
+        {
+            _steamId.steam_id = steamId.steam_id;
+        }
+
+        public SteamPlayer GetSteamPlayer()
+        {
+            return _steamPlayer;
+        }
+
+        public void SetSteamPlayer(SteamPlayer steamPlayer)
+        {
+            _steamPlayer = steamPlayer;
+        }
+
+        public void Logout()
+        {
+            _user = null;
+            _login = null;
+            _steamId = null;
+            _steamPlayer = null;
+
+            InitializeUser();
+            InitializeLogin();
+            InitializeSteamId();
+            InitializeSteamPlayer();
         }
     }
 }

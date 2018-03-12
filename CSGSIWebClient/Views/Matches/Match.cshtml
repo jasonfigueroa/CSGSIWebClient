@@ -1,0 +1,76 @@
+﻿@model MatchViewModel
+
+@using CSGSIWebClient.Utilities;
+
+@{
+    var mapDict = Model.mapUtilities.MapDict;
+    var teamDict = Model.teamUtilities.TeamDict;
+
+    var kdr = Model.GetKDR();
+}
+
+<h1>@Model.Title</h1>
+
+<h2>Match Information</h2>
+
+<dl class="dl-horizontal">
+    <dt>Match Start: </dt>
+    <dd>@DateUtilities.ConvertFromUnixTimestamp(Model.Match.datetime_start)</dd>
+
+    <dt>Duration: </dt>
+    <dd>@Model.Match.minutes_played minutes</dd>
+
+    <dt>Map: </dt>
+    @if (@mapDict.ContainsKey(Model.Match.map_name))
+    {
+        <dd>@mapDict[Model.Match.map_name]</dd>
+    }
+    else
+    {
+        <dd>@Model.Match.map_name</dd>
+    }    
+
+    <dt>Team: </dt>
+    @if (@teamDict.ContainsKey(Model.Match.team))
+    {
+        <dd>@teamDict[Model.Match.team]</dd>
+    }
+    else
+    {
+        <dd>@Model.Match.team</dd>
+    }
+
+    <dt>Win/Loss: </dt>
+    @if (Model.Match.team != Model.Match.round_win_team)
+    {
+        <dd>Loss</dd>
+    }
+    else
+    {
+        <dd>Win</dd>
+    }
+</dl>
+
+<h2>Player Stats</h2>
+
+<dl class="dl-horizontal">
+    <dt>KDR: </dt>
+    <dd>@kdr</dd>
+
+    <dt>Kills: </dt>
+    <dd>@Model.Match.matchStats["kills"]</dd>
+
+    <dt>Assists: </dt>
+    <dd>@Model.Match.matchStats["assists"]</dd>
+
+    <dt>Deaths: </dt>
+    <dd>@Model.Match.matchStats["deaths"]</dd>
+
+    <dt>MVPs: </dt>
+    <dd>@Model.Match.matchStats["mvps"]</dd>
+
+    <dt>Score: </dt>
+    <dd>@Model.Match.matchStats["score"]</dd>
+</dl>
+
+

@@ -1,27 +1,10 @@
-﻿@model HomeViewModel
-
-<h2>@Model.Title</h2>
-
-@foreach (var match in Model.Matches)
-{
-<div>
-    <h2><a asp-controller="Home" asp-action="Details" asp-route-id="@match.id">Match Id: @match.id</a></h2>
-
-    @*<p>match_id: @match.id</p>
-    <p>user_id: @match.user_id</p>
-    <p>datetime_start: @match.datetime_start</p>
-    <p>minutes_played: @match.minutes_played</p>
-    <p>map_name: @match.map_name</p>
-    <p>team: @match.team</p>
-    <p>round_win_team: @match.round_win_team</p>
-
-    <h2>Match Stats</h2>
-
-    <p>match_stats_id: @match.matchStats.id</p>
-    <p>kills: @match.matchStats.kills</p>
-    <p>assists: @match.matchStats.assists</p>
-    <p>deaths: @match.matchStats.deaths</p>
-    <p>mvps: @match.matchStats.mvps</p>
-    <p>score: @match.matchStats.score</p>*@
+﻿<div class="center-text col-md-8 col-md-offset-2">
+    <h1 class="cover-heading">Welcome to CSGO Stat Trakr</h1>
+    <p class="lead">CSGO Stat Trakr is the go to tool for stepping up your Counter Strike game! Dont' get salty, get CSGO Stat Trakr!</p>
+    @if (UserService.GetLogIn().LoggedIn == false)
+    {
+        <p class="lead">
+            <a asp-controller="Register" asp-action="Index" class="btn btn-lg btn-default">Register</a>
+        </p>
+    }
 </div>
-}

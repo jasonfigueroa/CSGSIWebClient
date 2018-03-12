@@ -1,0 +1,44 @@
+﻿@model RegisterViewModel
+
+<h1>Register</h1>
+
+<form asp-action="Index" method="post" class="form-horizontal" role="form">
+    <div class="form-group">
+        <label asp-for="Username" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Username" class="form-control" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SteamId" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="SteamId" class="form-control" />
+            <span asp-validation-for="SteamId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-5">
+            <input type="submit" class="btn btn-default" value="Submit" />
+        </div>
+    </div>
+
+</form>

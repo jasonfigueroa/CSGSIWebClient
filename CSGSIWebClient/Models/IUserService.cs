@@ -9,7 +9,12 @@ namespace CSGSIWebClient.Models
     {
         User GetUser();
         void SetUser(User user);
-        Login GetLoggedIn();
-        void SetLoggedIn(Login login);
+        Login GetLogIn();
+        void SetLogIn(Login login);
+        SteamId GetSteamId();
+        void SetSteamId(SteamId steamId);
+        SteamPlayer GetSteamPlayer();
+        void SetSteamPlayer(SteamPlayer steamPlayer);
+        void Logout();
     }
 }
