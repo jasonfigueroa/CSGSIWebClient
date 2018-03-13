@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600 " rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -22,11 +23,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="GettingStarted" asp-action="Index">Getting Started</a></li>
                     <li><a asp-area="" asp-controller="About" asp-action="Index">About</a></li>
                     <li><a asp-area="" asp-controller="TechnicalDetails" asp-action="Index">Technical Details</a></li>
                     @if (UserService.GetLogIn().LoggedIn == true)
                     {
                         <li><a asp-area="" asp-controller="Matches" asp-action="Index">Stats</a></li>
+                        <li><a href="http://localhost:57602/staticfiles/downloads/CSGSI_Console_App_setup.msi">Download</a></li>
                     }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")

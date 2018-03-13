@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -7,7 +8,9 @@ using CSGSIWebClient.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace CSGSIWebClient
 {
@@ -30,7 +33,13 @@ namespace CSGSIWebClient
             app.UseDeveloperExceptionPage();
 
             app.UseStatusCodePages();
-            app.UseStaticFiles();
+            app.UseStaticFiles(); // for wwwroot
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles")),
+                RequestPath = "/StaticFiles"
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
