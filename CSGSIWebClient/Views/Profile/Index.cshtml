@@ -5,6 +5,8 @@
 @{
     float kdr = Model.GetKDR();
     CSMatch lastMatch = Model.GetLastMatch();
+    CSMatch hightScoreMatch = Model.HighestScoreMatch();
+    CSMatch bestKDRMatch = Model.BestKDRMatch();
 }
 
 <div id="profile-div">
@@ -16,8 +18,14 @@
 
     <div>
         <dl class="dl-horizontal">
-            <dt>KDR: </dt>
+            <dt>Average KDR: </dt>
             <dd>@kdr</dd>
+
+            <dt>Highest Match Score: </dt>
+            <dd><a asp-controller="Matches" asp-action="Match" asp-route-id="@hightScoreMatch.id">@DateUtilities.ConvertFromUnixTimestamp(hightScoreMatch.datetime_start)</a></dd>
+
+            <dt>Best Match KDR: </dt>
+            <dd><a asp-controller="Matches" asp-action="Match" asp-route-id="@bestKDRMatch.id">@DateUtilities.ConvertFromUnixTimestamp(bestKDRMatch.datetime_start)</a></dd>
 
             <dt>Last Match: </dt>
             <dd><a asp-controller="Matches" asp-action="Match" asp-route-id="@lastMatch.id">@DateUtilities.ConvertFromUnixTimestamp(lastMatch.datetime_start)</a></dd>

@@ -31,7 +31,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task<JWT> Auth(User user)
         {
-            string url = "http://localhost:5000/auth";
+            string url = "http://api.jasonfigueroa.io/auth";
 
             using (HttpClient client = new HttpClient())
 
@@ -51,7 +51,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task<CSMatch> GetCSMatchAsync(JWT jwt, int matchId)
         {
-            string url = $"http://localhost:5000/match/{matchId}";
+            string url = $"http://api.jasonfigueroa.io/match/{matchId}";
 
             HttpClient client = new HttpClient();
 
@@ -74,7 +74,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task<CSMatchList> GetCSMatchesAsync(JWT jwt)
         {
-            string url = $"http://localhost:5000/match/list";
+            string url = $"http://api.jasonfigueroa.io/match/list";
 
             HttpClient client = new HttpClient();
 
@@ -97,7 +97,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task<SteamId> GetSteamIdAsync(JWT jwt)
         {
-            string url = "http://localhost:5000/user/steamid";
+            string url = "http://api.jasonfigueroa.io/user/steamid";
 
             HttpClient client = new HttpClient();
 
@@ -119,7 +119,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task RegisterUserAsync(Register register)
         {
-            string url = "http://localhost:5000/register";
+            string url = "http://api.jasonfigueroa.io/register";
 
             HttpClient client = new HttpClient();
 
