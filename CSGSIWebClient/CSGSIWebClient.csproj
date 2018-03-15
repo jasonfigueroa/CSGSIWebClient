@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="MyStaticFiles\Downloads\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

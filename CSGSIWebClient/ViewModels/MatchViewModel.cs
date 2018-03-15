@@ -17,6 +17,14 @@ namespace CSGSIWebClient.ViewModels
         public MapUtilities mapUtilities = new MapUtilities();
         public TeamUtilities teamUtilities = new TeamUtilities();
 
-        public float GetKDR() => (float)Match.matchStats["kills"] / Match.matchStats["deaths"];
+        public float GetKDR()
+        {
+            if (Match.matchStats["deaths"] == 0 && Match.matchStats["kills"] > Match.matchStats["deaths"])
+            {
+                return (float)Match.matchStats["kills"] / 1;
+            }
+
+            return (float)Match.matchStats["kills"] / Match.matchStats["deaths"];
+        }
     }
 }
