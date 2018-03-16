@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSGSIWebClient.Validators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace CSGSIWebClient.Models
 
         [Required]
         [StringLength(100, ErrorMessage = "A password is required")]
+        [ValidPassword()]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string password { get; set; }
