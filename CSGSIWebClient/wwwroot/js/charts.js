@@ -18,11 +18,14 @@
     }
 };
 
-// params:
-//  title: string representing the title of the chart
-//  label: list of the labels to be used along the x axis
-//  data: list of the data values to be charted corresponding to each label
-function barChart(charttitle, chartlabels, chartdata) {
+//  Params
+//  title:      string representing the title of the chart
+//  label:      list of the labels to be used along the x axis
+//  data:       list of the data values to be charted corresponding to each label
+//  type:       the type of chart you wish to display, ex.: bar, pie, doughnut
+//  legend:     boolean value representing whether or not you wish to display a legend
+//  gridAxist:  boolean value representing whether or not you wish to display the grid and axis details
+function chartMe(charttitle, chartlabels, chartdata, charttype, chartlegend, displaygridAndAxisDetails) {
     let decode = false;
     let actualLabels = [];
     let decodesType;
@@ -44,48 +47,55 @@ function barChart(charttitle, chartlabels, chartdata) {
 
     var ctx = document.getElementById("my-chart").getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'bar',
+        type: charttype,
         data: {
             labels: actualLabels,
             datasets: [{
                 label: charttitle,
                 data: chartdata,
-                // background color of the bar
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
+                    'rgba(54, 162, 235, 0.2)',  // blue
+                    'rgba(255, 159, 64, 0.2)',  // orange
+                    'rgba(75, 192, 192, 0.2)',  // green
+                    'rgba(255, 99, 132, 0.2)',  // red
+                    'rgba(153, 102, 255, 0.2)', // purple
+                    'rgba(255, 206, 86, 0.2)',  // yellow
+                    'rgba(54, 162, 235, 0.2)',  // blue
+                    'rgba(255, 159, 64, 0.2)',  // orange
+                    'rgba(75, 192, 192, 0.2)',  // green
+                    'rgba(255, 99, 132, 0.2)',  // red
+                    'rgba(153, 102, 255, 0.2)', // purple
+                    'rgba(255, 206, 86, 0.2)'  // yellow
                 ],
-                // border color of the bar
                 borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
+                    'rgba(54, 162, 235, 1)',    // blue
+                    'rgba(255, 159, 64, 1)',    // orange
+                    'rgba(75, 192, 192, 1)',    // green
+                    'rgba(255,99,132,1)',       // red
+                    'rgba(153, 102, 255, 1)',   // purple
+                    'rgba(255, 206, 86, 1)',    // yellow
+                    'rgba(54, 162, 235, 1)',    // blue
+                    'rgba(255, 159, 64, 1)',    // orange
+                    'rgba(75, 192, 192, 1)',    // green
+                    'rgba(255,99,132,1)',       // red
+                    'rgba(153, 102, 255, 1)',   // purple
+                    'rgba(255, 206, 86, 1)',    // yellow
                 ],
                 borderWidth: 1
             }]
         },
         options: {
+            legend: { display: chartlegend },
+            title: {
+                display: true,
+                text: charttitle
+            },
             scales: {
+                xAxes: [{
+                    display: displaygridlines
+                }],
                 yAxes: [{
+                    display: displaygridlines,
                     ticks: {
                         beginAtZero: true
                     }
