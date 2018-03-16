@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
     const user = {};
 
+    $('#my-data-table').DataTable();
+
     $('.clickable').click(function () {
         const baseUrl = "http://localhost:57602/matches/match";
         const id = $(this)[0].id.split("__")[1];
