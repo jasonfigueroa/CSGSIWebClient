@@ -1,4 +1,6 @@
 ﻿using CSGSIWebClient.Models;
+using CSGSIWebClient.Utilities;
+using CSGSIWebClient.Validators;
 //using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,8 @@ namespace CSGSIWebClient.ViewModels
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Steam Id is required")]
-        [StringLength(100)]
+        [StringLength(100, ErrorMessage = "Steam Id is too long")]
+        [SteamId()]
         [Display(Name = "Steam Id")]
         public string SteamId { get; set; }
 
