@@ -92,10 +92,10 @@ function chartMe(charttitle, chartlabels, chartdata, charttype, chartlegend, dis
             },
             scales: {
                 xAxes: [{
-                    display: displaygridlines
+                    display: displaygridAndAxisDetails
                 }],
                 yAxes: [{
-                    display: displaygridlines,
+                    display: displaygridAndAxisDetails,
                     ticks: {
                         beginAtZero: true
                     }
