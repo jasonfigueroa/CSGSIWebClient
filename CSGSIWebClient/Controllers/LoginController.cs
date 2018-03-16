@@ -47,7 +47,8 @@ namespace CSGSIWebClient.Controllers
 
                     _userService.SetSteamId(steamId);
 
-                    SteamPlayer steamPlayer = SteamApiInterface.GetSteamPlayer(steamId);
+                    List<SteamPlayer> playerList = SteamApiInterface.GetSteamPlayers(steamId);
+                    SteamPlayer steamPlayer = playerList[0];
 
                     _userService.SetSteamPlayer(steamPlayer);
 

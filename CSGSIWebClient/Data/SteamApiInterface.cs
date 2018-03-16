@@ -12,12 +12,12 @@ namespace CSGSIWebClient.Data
     {
         private static string _apiKey = "E821014121563F86283961754BAC0C1C";
 
-        public static SteamPlayer GetSteamPlayer(SteamId steamId)
+        public static List<SteamPlayer> GetSteamPlayers(SteamId steamId)
         {
-            return GetSteamPlayerAsync(steamId).GetAwaiter().GetResult();
+            return GetSteamPlayersAsync(steamId).GetAwaiter().GetResult();
         }
 
-        private static async Task<SteamPlayer> GetSteamPlayerAsync(SteamId steamId)
+        private static async Task<List<SteamPlayer>> GetSteamPlayersAsync(SteamId steamId)
         {
             string url = $"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={_apiKey}&steamids={steamId.steam_id}";
 
@@ -31,7 +31,7 @@ namespace CSGSIWebClient.Data
 
             var something = JsonConvert.DeserializeObject<RootObject>(data);
 
-            return something.response.players[0];
+            return something.response.players;
         }
     }
 }
