@@ -4,6 +4,15 @@
     font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+#profile-div img {
+    width: 70%;
+    height: auto;
+}
+
+#profile-summary-div {
+    margin-top: 50px;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
