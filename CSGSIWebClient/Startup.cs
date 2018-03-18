@@ -30,7 +30,7 @@ namespace CSGSIWebClient
             // in this method order of the added middleware components is important
 
             // only use the following for development
-            app.UseDeveloperExceptionPage();
+            //app.UseDeveloperExceptionPage();
 
             app.UseStatusCodePages();
             app.UseStaticFiles(); // for wwwroot

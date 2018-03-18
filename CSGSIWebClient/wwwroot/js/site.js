@@ -49,7 +49,7 @@
     }
 
     //if (window.location.href.indexOf("http://localhost:49424/Profile") > -1 || window.location.href.indexOf("http://localhost:49424/profile") > -1) {
-    if (window.location.href.indexOf("http://CSGSIStatTrakr.jasonfigueroa.io/Profile") > -1 || window.location.href.indexOf("http://CSGSIStatTrakr.jasonfigueroa.io/profile") > -1) {
+    if (window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/Profile") > -1 || window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/profile") > -1) {
         renderChart();
     }
 
