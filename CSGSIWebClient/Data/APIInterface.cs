@@ -125,5 +125,35 @@ namespace CSGSIWebClient.Data
 
             HttpResponseMessage res = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(register), Encoding.UTF8, "application/json"));
         }
+
+        public static async Task<APIMessage> IsUsernameInDb(string username)
+        {
+            string url = $"http://api.jasonfigueroa.io/usernameexists/{username}";
+
+            HttpClient client = new HttpClient();
+
+            HttpResponseMessage res = await client.GetAsync(url);
+
+            HttpContent content = res.Content;
+
+            string data = await content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<APIMessage>(data);
+        }
+
+        public static async Task<APIMessage> IsSteamIdInDb(string steamId)
+        {
+            string url = $"http://api.jasonfigueroa.io/steamidexists/{steamId}";
+
+            HttpClient client = new HttpClient();
+
+            HttpResponseMessage res = await client.GetAsync(url);
+
+            HttpContent content = res.Content;
+
+            string data = await content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<APIMessage>(data);
+        }
     }
 }
