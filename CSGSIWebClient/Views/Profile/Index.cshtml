@@ -10,13 +10,13 @@
     CSMatch bestKDRMatch = Model.BestKDRMatch();
 
     <div id="profile-div">
-        <div id="profile-summary-div">
+        <div>
             <h1>@Model.SteamPlayer.personaname</h1>
 
             <img src="@Model.SteamPlayer.avatarfull" />
         </div>
 
-        <div>
+        <div id="profile-summary-div">
             <dl class="dl-horizontal">
                 <dt>Average KDR: </dt>
                 <dd>@kdr</dd>
