@@ -34,12 +34,12 @@ namespace CSGSIWebClient
 
             app.UseStatusCodePages();
             app.UseStaticFiles(); // for wwwroot
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles")),
-                RequestPath = "/StaticFiles"
-            });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //    Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles")),
+            //    RequestPath = "/StaticFiles"
+            //});
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

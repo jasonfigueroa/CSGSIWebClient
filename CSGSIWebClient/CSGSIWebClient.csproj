@@ -5,8 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\downloads\setup_CSGSI_Stat_Trakr.msi" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="MyStaticFiles\Downloads\" />
     <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\downloads\setup_CSGSI_Stat_Trakr.msi" />
   </ItemGroup>
 
   <ItemGroup>
