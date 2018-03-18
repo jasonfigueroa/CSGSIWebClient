@@ -28,10 +28,11 @@
                     <li><a asp-area="" asp-controller="About" asp-action="Index">About</a></li>
                     <li><a asp-area="" asp-controller="TechnicalDetails" asp-action="Index">Technical Details</a></li>
                     @if (UserService.GetLogIn().LoggedIn == true)
-                    {
-                        <li><a asp-area="" asp-controller="Matches" asp-action="Index">Stats</a></li>
-                        <li><a href="http://localhost:49424/staticfiles/downloads/setup_CSGSI_Stat_Trakr.msi">Download</a></li>
-                    }
+    {
+                <li><a asp-area="" asp-controller="Matches" asp-action="Index">Stats</a></li>
+                @*<li><a href="http://localhost:49424/staticfiles/downloads/setup_CSGSI_Stat_Trakr.msi">Download</a></li>*@
+                <li><a href="http://CSGSIStatTrakr.jasonfigueroa.io/staticfiles/downloads/setup_CSGSI_Stat_Trakr.msi">Download</a></li>
+}
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
