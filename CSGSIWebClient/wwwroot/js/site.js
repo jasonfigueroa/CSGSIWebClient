@@ -5,7 +5,7 @@
 
     $('#my-data-table tbody').on('click', '.clickable', function () {
         //const baseUrl = "http://localhost:49424/matches/match";
-        const baseUrl = "http://CSGSIStatTrakr.jasonfigueroa.io/matches/match";
+        const baseUrl = "https://CSGSIStatTrakr.jasonfigueroa.io/matches/match";
         const id = $(this)[0].id.split("__")[1];
         let url = `${baseUrl}/${id}`;
         window.location.href = url;
@@ -49,7 +49,7 @@
     }
 
     //if (window.location.href.indexOf("http://localhost:49424/Profile") > -1 || window.location.href.indexOf("http://localhost:49424/profile") > -1) {
-    if (window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/Profile") > -1 || window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/profile") > -1) {
+    if (window.location.href.indexOf("https://csgsistattrakr.jasonfigueroa.io/Profile") > -1 || window.location.href.indexOf("https://csgsistattrakr.jasonfigueroa.io/profile") > -1) {
         renderChart();
     }
 
