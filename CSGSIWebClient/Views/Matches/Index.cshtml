@@ -27,22 +27,22 @@
                     <td>@match.minutes_played min</td>
 
                     @if (@mapDict.ContainsKey(match.map_name))
-                    {
-                        <td>@mapDict[match.map_name]</td>
-                    }
-                    else
-                    {
-                        <td>@match.map_name</td>
-                    }
+        {
+            <td>@mapDict[match.map_name]</td>
+}
+else
+{
+            <td>@match.map_name</td>
+}
 
                     @if (teamDict.ContainsKey(match.team))
-                    {
-                        <td>@teamDict[match.team]</td>
-                    }
-                    else
-                    {
-                        <td>@match.team</td>
-                    }
+        {
+            <td>@teamDict[match.team]</td>
+}
+else
+{
+            <td>@match.team</td>
+}
                 </tr>
             }
         </tbody>
