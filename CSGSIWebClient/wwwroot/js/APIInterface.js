@@ -9,7 +9,7 @@ function getMatches(handleData) {
     const user = getUser();
 
     $.ajax({
-        url: 'http://api.jasonfigueroa.io/auth',
+        url: 'https://api.jasonfigueroa.io/auth',
         type: 'POST',
         data: JSON.stringify({
             username: user.username,
@@ -20,7 +20,7 @@ function getMatches(handleData) {
     })
         .then(function (data) {
             $.ajax({
-                url: 'http://api.jasonfigueroa.io/match/list',
+                url: 'https://api.jasonfigueroa.io/match/list',
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", `JWT ${data.access_token}`);

@@ -31,7 +31,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task<JWT> Auth(User user)
         {
-            string url = "http://api.jasonfigueroa.io/auth";
+            string url = "https://api.jasonfigueroa.io/auth";
 
             using (HttpClient client = new HttpClient())
 
@@ -51,7 +51,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task<CSMatch> GetCSMatchAsync(JWT jwt, int matchId)
         {
-            string url = $"http://api.jasonfigueroa.io/match/{matchId}";
+            string url = $"https://api.jasonfigueroa.io/match/{matchId}";
 
             HttpClient client = new HttpClient();
 
@@ -74,7 +74,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task<CSMatchList> GetCSMatchesAsync(JWT jwt)
         {
-            string url = $"http://api.jasonfigueroa.io/match/list";
+            string url = $"https://api.jasonfigueroa.io/match/list";
 
             HttpClient client = new HttpClient();
 
@@ -97,7 +97,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task<SteamId> GetSteamIdAsync(JWT jwt)
         {
-            string url = "http://api.jasonfigueroa.io/user/steamid";
+            string url = "https://api.jasonfigueroa.io/user/steamid";
 
             HttpClient client = new HttpClient();
 
@@ -119,7 +119,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task RegisterUserAsync(Register register)
         {
-            string url = "http://api.jasonfigueroa.io/register";
+            string url = "https://api.jasonfigueroa.io/register";
 
             HttpClient client = new HttpClient();
 
@@ -128,7 +128,7 @@ namespace CSGSIWebClient.Data
 
         public static async Task<APIMessage> IsUsernameInDb(string username)
         {
-            string url = $"http://api.jasonfigueroa.io/usernameexists/{username}";
+            string url = $"https://api.jasonfigueroa.io/usernameexists/{username}";
 
             HttpClient client = new HttpClient();
 
@@ -143,7 +143,7 @@ namespace CSGSIWebClient.Data
 
         public static async Task<APIMessage> IsSteamIdInDb(string steamId)
         {
-            string url = $"http://api.jasonfigueroa.io/steamidexists/{steamId}";
+            string url = $"https://api.jasonfigueroa.io/steamidexists/{steamId}";
 
             HttpClient client = new HttpClient();
 
