@@ -4,7 +4,8 @@
     $('#my-data-table').DataTable();
 
     $('#my-data-table tbody').on('click', '.clickable', function () {
-        const baseUrl = "http://localhost:57602/matches/match";
+        //const baseUrl = "http://localhost:57602/matches/match";
+        const baseUrl = "http://localhost:49424/matches/match";
         //const baseUrl = "http://CSGSIStatTrakr.jasonfigueroa.io/matches/match";
         const id = $(this)[0].id.split("__")[1];
         let url = `${baseUrl}/${id}`;
@@ -52,8 +53,8 @@
         }
     }
 
-    //if (window.location.href.indexOf("http://localhost:49424/Profile") > -1 || window.location.href.indexOf("http://localhost:49424/profile") > -1) {
-    if (window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/Profile") > -1 || window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/profile") > -1) {
+    if (window.location.href.indexOf("http://localhost:49424/Profile") > -1 || window.location.href.indexOf("http://localhost:49424/profile") > -1) {
+    //if (window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/Profile") > -1 || window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/profile") > -1) {
         renderChart();
     }
 
@@ -217,7 +218,8 @@
         });
     }
 
-    if (window.location.href.indexOf("localhost:57602/matches") > -1 || window.location.href.indexOf("localhost:57602/Matches") > -1) {
+    //if (window.location.href.indexOf("localhost:57602/matches") > -1 || window.location.href.indexOf("localhost:57602/Matches") > -1) {
+    if (window.location.href.indexOf("localhost:49424/matches") > -1 || window.location.href.indexOf("localhost:49424/Matches") > -1) {
         displayStatsTable();
     }
 
@@ -238,9 +240,9 @@
         });
     }
 
-    if (window.location.href.indexOf("localhost:57602/matches/match") > -1 || window.location.href.indexOf("localhost:57602/Matches/match") > -1) {
+    //if (window.location.href.indexOf("localhost:57602/matches/match") > -1 || window.location.href.indexOf("localhost:57602/Matches/match") > -1) {
+    if (window.location.href.indexOf("localhost:49424/matches/match") > -1 || window.location.href.indexOf("localhost:49424/Matches/match") > -1) {
         displayMatchSummary();
-        //displayMatchPlayerStats();
     }
 
     function displayMatchSummary() {
@@ -289,7 +291,61 @@
         });
     }
 
-    //function displayMatchPlayerStats() {
+    if (window.location.href.toLocaleLowerCase() == "http://localhost:49424/profile") {
+        displayPlayerProfile();
+    }
 
-    //}
+    function displayPlayerProfile() {
+        //getSteamNameAndAvatar(function (output) {
+        //    console.log(output);
+        //});
+        getMatches(function (output) {
+            console.log(output);
+            const matches = output.matches;
+            const initialMatch = matches[0];
+            let totalKills = 0;
+            let totalDeaths = 0;
+            let highestScoreMatch = initialMatch;
+            let bestKdr = initialMatch.deaths == 0 && initialMatch.kills > 0 ? initialMatch.kills / 1 : initialMatch.kills / initialMatch.deaths;
+            let lastMatch = initialMatch;
+            for (let i = 0; i < matches.length; i++) {
+                const match = matches[i]
+                const matchKdr = match.deaths == 0 && match.kills > 0 ? match.kills / 1 : match.kills / match.deaths;
+                totalKills += match.match_stats.kills;
+                totalDeaths += match.match_stats.deaths;
+                if (highestScoreMatch.match_stats.score < match.match_stats.score) {
+                    highestScoreMatch = match;
+                }
+                if (bestKdr < ) {
+
+                }
+                if () {
+
+                }
+            }
+            //matches.forEach(function (match) {
+            //    totalKills += match.match_stats.kills;
+            //    totalDeaths += match.match_stats.deaths;
+            //});
+
+            const averageKdr = totalDeaths = 0 && totalKills > 0 ? totalKills / 1 : totalKills / totalDeaths;
+            //console.log(`kdr: ${kdr}`);
+
+            //const stats = match.match_stats;
+            
+            //$('#profile-summary-div dl').append(`
+            //    <dt>Average KDR: </dt>
+            //    <dd>${}</dd>
+
+            //    <dt>Highest Match Score: </dt>
+            //    <dd>N/A</dd>
+
+            //    <dt>Best Match KDR: </dt>
+            //    <dd>N/A</dd>
+
+            //    <dt>Last Match: </dt>
+            //    <dd>N/A</dd>
+            //`);
+        });
+    }
 });
