@@ -4,7 +4,7 @@
     $('#my-data-table').DataTable();
 
     $('#my-data-table tbody').on('click', '.clickable', function () {
-        const baseUrl = "http://localhost:49424/matches/match";
+        const baseUrl = "http://localhost:57602/matches/match";
         //const baseUrl = "http://CSGSIStatTrakr.jasonfigueroa.io/matches/match";
         const id = $(this)[0].id.split("__")[1];
         let url = `${baseUrl}/${id}`;
@@ -17,6 +17,9 @@
     });
 
     $('#input-password').keyup(function () {
+        if ($('#input-username').val()) {
+            user.username = $('#input-username').val();
+        }
         user.password = $(this).val();
         setUser();
     });
@@ -25,6 +28,7 @@
         let stringifiedUser = JSON.stringify(user);
         let encryptedUser = CryptoJS.AES.encrypt(stringifiedUser, "Secret Passphrase");
         localStorage.setItem("user", encryptedUser);
+        //localStorage.setItem("user", stringifiedUser);
     }
 
     $('#chart-selection').change(function () {
@@ -213,7 +217,7 @@
         });
     }
 
-    if (window.location.href.indexOf("localhost:49424/matches") > -1 || window.location.href.indexOf("localhost:49424/Matches") > -1) {
+    if (window.location.href.indexOf("localhost:57602/matches") > -1 || window.location.href.indexOf("localhost:57602/Matches") > -1) {
         displayStatsTable();
     }
 
@@ -228,9 +232,64 @@
                     match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name,
                     match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team
                 ]).node().id = `match__${match.id}`;
-            }            
+            }
             dataTable.draw();
             $('tr').addClass('clickable');
         });
     }
+
+    if (window.location.href.indexOf("localhost:57602/matches/match") > -1 || window.location.href.indexOf("localhost:57602/Matches/match") > -1) {
+        displayMatchSummary();
+        //displayMatchPlayerStats();
+    }
+
+    function displayMatchSummary() {
+        const urlSplit = window.location.href.split('/');
+        const id = urlSplit[urlSplit.length - 1];
+        getMatch(id, function (output) {
+            console.log(output);
+            const match = output;
+            const win = match.team != match.round_win_team ? false : true;
+            $('#match-summary').append(`
+                <dt>Match Start: </dt>
+                <dd>${new Date(match.datetime_start * 1000).toLocaleString()}</dd>
+
+                <dt>Duration: </dt>
+                <dd>${match.minutes_played} minutes</dd>
+
+                <dt>Map: </dt>
+                <dd>${match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name}</dd>
+
+                <dt>Team: </dt>
+                <dd>${match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team}</dd>
+
+                <dt>Win/Loss: </dt>
+                <dd><span class="${win ? "text-success" : "text-danger"}">${win ? "Win" : "Loss"}</span></dd>
+            `);
+            const stats = match.match_stats;
+            $('#match-player-stats').append(`
+                <dt>KDR: </dt>
+                <dd>${(stats.deaths == 0 && stats.kills > 0 ? stats.kills / 1 : stats.kills / stats.deaths).toFixed(2)}</dd>
+
+                <dt>Kills: </dt>
+                <dd>${stats.kills}</dd>
+
+                <dt>Assists: </dt>
+                <dd>${stats.assists}</dd>
+
+                <dt>Deaths: </dt>
+                <dd>${stats.deaths}</dd>
+
+                <dt>MVPs: </dt>
+                <dd>${stats.mvps}</dd>
+
+                <dt>Score: </dt>
+                <dd>${stats.score}</dd>
+            `);
+        });
+    }
+
+    //function displayMatchPlayerStats() {
+
+    //}
 });

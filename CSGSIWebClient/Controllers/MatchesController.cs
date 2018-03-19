@@ -15,7 +15,7 @@ namespace CSGSIWebClient.Controllers
     public class MatchesController : Controller
     {
         //private readonly IUserService _userService;
-        private User _user;
+        //private User _user;
 
         //public MatchesController(IUserService userService)
         public MatchesController()
@@ -41,25 +41,27 @@ namespace CSGSIWebClient.Controllers
             return View(matchesViewModel);
         }
 
-        //public IActionResult Match(int id)
-        //{
-        //    if (_userService.GetLogIn().LoggedIn == false)
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
+        [Authorize]
+        public IActionResult Match(int id)
+        {
+            //if (_userService.GetLogIn().LoggedIn == false)
+            //{
+            //    return RedirectToAction("Index", "Login");
+            //}
 
-        //    MatchViewModel matchViewModel = new MatchViewModel()
-        //    {
-        //        Title = "Game Details",
-        //        Match = APIInterface.GetCSMatch(_user, id)
-        //    };            
+            MatchViewModel matchViewModel = new MatchViewModel()
+            {
+                Title = "Game Details",
+                //Match = APIInterface.GetCSMatch(_user, id)
+                //Match = APIInterface.GetCSMatch(id)
+            };
 
-        //    if (matchViewModel.Match == null)
-        //    {
-        //        return NotFound();
-        //    }
+            //if (matchViewModel.Match == null)
+            //{
+            //    return NotFound();
+            //}
 
-        //    return View(matchViewModel);
-        //}
+            return View(matchViewModel);
+        }
     }
 }
