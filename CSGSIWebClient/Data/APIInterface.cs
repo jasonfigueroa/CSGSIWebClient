@@ -12,12 +12,12 @@ namespace CSGSIWebClient.Data
 {
     public class APIInterface
     {
-        private IUserService _userService;
+        //private IUserService _userService;
 
-        public APIInterface(IUserService userService)
-        {
-            _userService = userService;
-        }
+        //public APIInterface(IUserService userService)
+        //{
+        //    _userService = userService;
+        //}
 
         public static bool IsValidUser(User user)
         {

@@ -13,31 +13,32 @@ namespace CSGSIWebClient.Controllers
 {
     public class ProfileController : Controller
     {
-        private IUserService _userService;
+        //private IUserService _userService;
         private User _user;
         private ProfileViewModel _profileViewModel;
 
-        public ProfileController(IUserService userService)
+        //public ProfileController(IUserService userService)
+        public ProfileController()
         {
-            _userService = userService;
+            //_userService = userService;
             _profileViewModel = new ProfileViewModel();
         }
         
         public IActionResult Index()
         {
-            if (_userService.GetLogIn().LoggedIn == false)
-            {
-                return RedirectToAction("Index", "Login");
-            }
+            //if (_userService.GetLogIn().LoggedIn == false)
+            //{
+            //    return RedirectToAction("Index", "Login");
+            //}
 
-            _user = _userService.GetUser();
+            //_user = _userService.GetUser();
 
-            SteamPlayer steamPlayer = _userService.GetSteamPlayer();
+            //SteamPlayer steamPlayer = _userService.GetSteamPlayer();
 
-            CSMatchList cSMatchList = APIInterface.GetCSMatches(_user);
+            //CSMatchList cSMatchList = APIInterface.GetCSMatches(_user);
 
-            _profileViewModel.SteamPlayer = steamPlayer;
-            _profileViewModel.CSMatchList = cSMatchList.Matches;
+            //_profileViewModel.SteamPlayer = steamPlayer;
+            //_profileViewModel.CSMatchList = cSMatchList.Matches;
 
             return View(_profileViewModel);
         }

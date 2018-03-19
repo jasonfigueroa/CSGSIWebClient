@@ -4,8 +4,8 @@
     $('#my-data-table').DataTable();
 
     $('#my-data-table tbody').on('click', '.clickable', function () {
-        //const baseUrl = "http://localhost:49424/matches/match";
-        const baseUrl = "http://CSGSIStatTrakr.jasonfigueroa.io/matches/match";
+        const baseUrl = "http://localhost:49424/matches/match";
+        //const baseUrl = "http://CSGSIStatTrakr.jasonfigueroa.io/matches/match";
         const id = $(this)[0].id.split("__")[1];
         let url = `${baseUrl}/${id}`;
         window.location.href = url;
@@ -210,6 +210,27 @@
                 data.push(teamObj.wins);
             }
             chartMe(chartData.title, chartData.labels, data, "doughnut", true, false);
+        });
+    }
+
+    if (window.location.href.indexOf("localhost:49424/matches") > -1 || window.location.href.indexOf("localhost:49424/Matches") > -1) {
+        displayStatsTable();
+    }
+
+    function displayStatsTable() {
+        getMatches(function (output) {
+            var dataTable = $('#my-data-table').DataTable();
+            for (let i = 0; i < output.matches.length; i++) {
+                let match = output.matches[i];
+                dataTable.row.add([
+                    `<td><span class="hidden">${match.datetime_start}</span>${new Date(match.datetime_start * 1000).toLocaleString()}</td>`,
+                    `${match.minutes_played} minutes`,
+                    match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name,
+                    match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team
+                ]).node().id = `match__${match.id}`;
+            }            
+            dataTable.draw();
+            $('tr').addClass('clickable');
         });
     }
 });

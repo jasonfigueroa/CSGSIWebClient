@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using CSGSIWebClient.Data;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,14 +18,11 @@ namespace CSGSIWebClient.Controllers
 {
     public class LoginController : Controller
     {
-        private IUserService _userService;
         private User _user;
 
-        public LoginController(IUserService userService)
+        public LoginController()
         {
-            _userService = userService;
-
-            _user = _userService.GetUser();
+            _user = new User();
         }
 
         // GET: /<controller>/
@@ -33,24 +32,34 @@ namespace CSGSIWebClient.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(User user)
+        public async Task<IActionResult> Index(User user)
         {
             if(ModelState.IsValid)
             {
-                if(APIInterface.IsValidUser(user))
+                if (LoginUser(user.username, user.password))
                 {
-                    _userService.SetUser(user);
+                    //_userService.SetUser(user);
 
-                    _userService.SetLogIn(new Login { LoggedIn = true });
+                    //_userService.SetLogIn(new Login { LoggedIn = true });
 
-                    SteamId steamId = APIInterface.GetSteamId(user);
+                    //SteamId steamId = APIInterface.GetSteamId(user);
 
-                    _userService.SetSteamId(steamId);
+                    //_userService.SetSteamId(steamId);
 
-                    List<SteamPlayer> playerList = SteamApiInterface.GetSteamPlayers(steamId);
-                    SteamPlayer steamPlayer = playerList[0];
+                    //List<SteamPlayer> playerList = SteamApiInterface.GetSteamPlayers(steamId);
+                    //SteamPlayer steamPlayer = playerList[0];
 
-                    _userService.SetSteamPlayer(steamPlayer);
+                    //_userService.SetSteamPlayer(steamPlayer);
+
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.username)
+                    };
+
+                    var userIdentity = new ClaimsIdentity(claims, "login");
+
+                    ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                    await HttpContext.SignInAsync(principal);
 
                     return RedirectToAction("Index", "Matches");
                 }
@@ -59,14 +68,13 @@ namespace CSGSIWebClient.Controllers
             return View(user);
         }
 
-        public IActionResult SuccessfulLogin()
+        private bool LoginUser(string username, string password)
         {
-            // to control user routing
-            if (_userService.GetLogIn().LoggedIn == false)
+            if (APIInterface.IsValidUser(new User { username = username, password = password }))
             {
-                return RedirectToAction("Index", "Login");
+                return true;
             }
-            return View();
+            return false;
         }
     }
 }

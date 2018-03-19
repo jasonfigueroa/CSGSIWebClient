@@ -13,14 +13,15 @@ namespace CSGSIWebClient.Controllers
 {
     public class RegisterController : Controller
     {
-        private IUserService _userService;
+        //private IUserService _userService;
         private User _user;
         private Register _register;
         private RegisterViewModel _registerViewModel;
 
-        public RegisterController(IUserService userService)
+        //public RegisterController(IUserService userService)
+        public RegisterController()
         {
-            _userService = userService;
+            //_userService = userService;
             _user = new User();
             _register = new Register();
             _registerViewModel = new RegisterViewModel();
@@ -36,27 +37,27 @@ namespace CSGSIWebClient.Controllers
         {
             if (ModelState.IsValid)
             {
-                _register.Username = registerViewModel.Username;
-                _register.SteamId = registerViewModel.SteamId;
-                _register.Password = registerViewModel.Password;
+                //_register.Username = registerViewModel.Username;
+                //_register.SteamId = registerViewModel.SteamId;
+                //_register.Password = registerViewModel.Password;
 
-                APIInterface.RegisterUser(_register);
+                //APIInterface.RegisterUser(_register);
 
-                _user.username = _register.Username;
-                _user.password = _register.Password;
+                //_user.username = _register.Username;
+                //_user.password = _register.Password;
 
-                _userService.SetUser(_user);
+                //_userService.SetUser(_user);
 
-                _userService.SetLogIn(new Login { LoggedIn = true });
+                //_userService.SetLogIn(new Login { LoggedIn = true });
 
-                SteamId steamId = APIInterface.GetSteamId(_user);
+                //SteamId steamId = APIInterface.GetSteamId(_user);
 
-                _userService.SetSteamId(steamId);
+                //_userService.SetSteamId(steamId);
 
-                List<SteamPlayer> playerList = SteamApiInterface.GetSteamPlayers(steamId);
-                SteamPlayer steamPlayer = playerList[0];
+                //List<SteamPlayer> playerList = SteamApiInterface.GetSteamPlayers(steamId);
+                //SteamPlayer steamPlayer = playerList[0];
 
-                _userService.SetSteamPlayer(steamPlayer);
+                //_userService.SetSteamPlayer(steamPlayer);
 
                 return RedirectToAction("Index", "Matches");
             }

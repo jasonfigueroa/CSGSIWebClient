@@ -11,16 +11,16 @@ namespace CSGSIWebClient.Controllers
 {
     public class LogoutController : Controller
     {
-        private IUserService _userService;
+        //private IUserService _userService;
 
-        public LogoutController(IUserService userService)
-        {
-            _userService = userService;
-        }
+        //public LogoutController(IUserService userService)
+        //{
+        //    _userService = userService;
+        //}
         
         public IActionResult Index()
         {
-            _userService.Logout();
+            //_userService.Logout();
             return RedirectToAction("Index", "Home");
         }
     }
