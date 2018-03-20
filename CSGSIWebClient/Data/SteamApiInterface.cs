@@ -1,4 +1,6 @@
-﻿using CSGSIWebClient.Models;
+﻿using CSGSIWebClient.Controllers;
+using CSGSIWebClient.Models;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,11 +13,26 @@ namespace CSGSIWebClient.Data
     public class SteamApiInterface
     {
         private static string _apiKey = "E821014121563F86283961754BAC0C1C";
+        //private static HttpContext _httpContext;
+
+        //public SteamApiInterface(HttpContext httpContext)
+        //{
+        //    _httpContext = httpContext;
+        //}
 
         public static List<SteamPlayer> GetSteamPlayers(SteamId steamId)
         {
             return GetSteamPlayersAsync(steamId).GetAwaiter().GetResult();
         }
+
+        //public static List<SteamPlayer> GetSteamPlayers()
+        //{
+        //    string steamId = HttpContext.Session.GetString("_SteamId");
+        //    //SteamId steamId = new SteamId { steam_id = _httpContext.Items["steamId"].ToString() };
+        //    SteamId steamId = new SteamId { steam_id =  };
+        //    return GetSteamPlayersAsync(steamId).GetAwaiter().GetResult();
+        //    //return steamPlayers[0];
+        //}
 
         private static async Task<List<SteamPlayer>> GetSteamPlayersAsync(SteamId steamId)
         {

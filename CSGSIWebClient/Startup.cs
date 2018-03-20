@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CSGSIWebClient.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +21,10 @@ namespace CSGSIWebClient
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IUserService, UserService>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.LoginPath = "/Login/";
+                });
             services.AddMvc();
         }
 
@@ -30,16 +34,21 @@ namespace CSGSIWebClient
             // in this method order of the added middleware components is important
 
             // only use the following for development
-            //app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
+
+            app.UseAuthentication();
 
             app.UseStatusCodePages();
             app.UseStaticFiles(); // for wwwroot
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles")),
-                RequestPath = "/StaticFiles"
-            });
+
+            // may be able to remove the following block since download file is being moved to wwwroot
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //    Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles")),
+            //    RequestPath = "/StaticFiles"
+            //});
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using CSGSIWebClient.Data;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,41 +19,36 @@ namespace CSGSIWebClient.Controllers
 {
     public class LoginController : Controller
     {
-        private IUserService _userService;
         private User _user;
 
-        public LoginController(IUserService userService)
+        public LoginController()
         {
-            _userService = userService;
-
-            _user = _userService.GetUser();
+            _user = new User();
         }
 
-        // GET: /<controller>/
         public IActionResult Index()
         {
             return View(_user);
         }
 
         [HttpPost]
-        public IActionResult Index(User user)
+        public async Task<IActionResult> Index(User user)
         {
             if(ModelState.IsValid)
             {
-                if(APIInterface.IsValidUser(user))
+                if (LoginUser(user.username, user.password))
                 {
-                    _userService.SetUser(user);
-
-                    _userService.SetLogIn(new Login { LoggedIn = true });
-
                     SteamId steamId = APIInterface.GetSteamId(user);
 
-                    _userService.SetSteamId(steamId);
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, steamId.steam_id)
+                    };
 
-                    List<SteamPlayer> playerList = SteamApiInterface.GetSteamPlayers(steamId);
-                    SteamPlayer steamPlayer = playerList[0];
+                    var userIdentity = new ClaimsIdentity(claims, "login");
 
-                    _userService.SetSteamPlayer(steamPlayer);
+                    ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                    await HttpContext.SignInAsync(principal);
 
                     return RedirectToAction("Index", "Matches");
                 }
@@ -59,14 +57,13 @@ namespace CSGSIWebClient.Controllers
             return View(user);
         }
 
-        public IActionResult SuccessfulLogin()
+        private bool LoginUser(string username, string password)
         {
-            // to control user routing
-            if (_userService.GetLogIn().LoggedIn == false)
+            if (APIInterface.IsValidUser(new User { username = username, password = password }))
             {
-                return RedirectToAction("Index", "Login");
+                return true;
             }
-            return View();
+            return false;
         }
     }
 }

@@ -20,64 +20,69 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">CSGO Stat Trakr</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">CSGSI Stat Trakr</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="GettingStarted" asp-action="Index">Getting Started</a></li>
                     <li><a asp-area="" asp-controller="About" asp-action="Index">About</a></li>
                     <li><a asp-area="" asp-controller="TechnicalDetails" asp-action="Index">Technical Details</a></li>
-                    @if (UserService.GetLogIn().LoggedIn == true)
+                    @if (User.Identity.IsAuthenticated)
     {
                 <li><a asp-area="" asp-controller="Matches" asp-action="Index">Stats</a></li>
                 @*<li><a href="http://localhost:49424/staticfiles/downloads/setup_CSGSI_Stat_Trakr.msi">Download</a></li>*@
-                <li><a href="http://CSGSIStatTrakr.jasonfigueroa.io/downloads/setup_CSGSI_Stat_Trakr.msi">Download</a></li>
+                <li><a href="https://csgsistattrakr.jasonfigueroa.io/downloads/setup_CSGSI_Stat_Trakr.msi">Download</a></li>
+                @*<li><a href="https://csgostattrakr.jasonfigueroa.io/downloads/setup_CSGO_Stat_Trakr.msi">Download</a></li>*@
 }
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
-            </div>
-        </div>
-    </nav>
+@await Html.PartialAsync("_LoginPartial")
+</div>
 
-    <div class="container content-body">
-        <div class="row">
-            @RenderBody()
-        </div>
-    </div>
+</div>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+</nav>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="~/js/charts.js"></script>
-    <script type="text/javascript" src="~/js/APIInterface.js"></script>
+<div class="container content-body">
+<div class="row">
+@RenderBody()
+</div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/dataTables.bootstrap.min.js"></script>
-    <script src="~/js/site.js"></script>
+<script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+<script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 
-    @* temporarily off, want to read about this and is why I'm leaving it here *@
-    @*<environment include="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-        </environment>
-        <environment exclude="Development">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery"
-                    crossorigin="anonymous"
-                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                    crossorigin="anonymous"
-                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-            </script>
-            <script type="text/javascript" src="~/js/site.min.js" asp-append-version="true"></script>
-        </environment>*@
+<script src = "https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+<script type="text/javascript" src="~/js/charts.js"></script>
+<script type = "text/javascript" src="~/js/APIInterface.js"></script>
+@*<script type = "text/javascript" src="~/js/SteamAPIInterface.js"></script>*@
+
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/dataTables.bootstrap.min.js"></script>
+<script src="~/js/site.js"></script>
+
+                @* temporarily off, want to read about this and is why I'm leaving it here *@
+                @*<environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script type="text/javascript" src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>*@
 </body>
 </html>

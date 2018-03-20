@@ -39,6 +39,10 @@
     margin-bottom: 15px;
 }
 
+.hidden {
+    display: none;
+}
+
 /*#my-chart {
     width: 400px;
     height: 400px;
