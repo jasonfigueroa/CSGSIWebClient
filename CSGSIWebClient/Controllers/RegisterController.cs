@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CSGSIWebClient.Data;
 using CSGSIWebClient.Models;
 using CSGSIWebClient.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -33,15 +35,25 @@ namespace CSGSIWebClient.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Index(RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)
             {
-                //_register.Username = registerViewModel.Username;
-                //_register.SteamId = registerViewModel.SteamId;
-                //_register.Password = registerViewModel.Password;
+                _register.Username = registerViewModel.Username;
+                _register.SteamId = registerViewModel.SteamId;
+                _register.Password = registerViewModel.Password;
 
-                //APIInterface.RegisterUser(_register);
+                APIInterface.RegisterUser(_register);
+
+                var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, _register.Username)
+                    };
+
+                var userIdentity = new ClaimsIdentity(claims, "login");
+
+                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                await HttpContext.SignInAsync(principal);
 
                 //_user.username = _register.Username;
                 //_user.password = _register.Password;

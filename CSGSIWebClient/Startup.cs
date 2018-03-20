@@ -22,10 +22,17 @@ namespace CSGSIWebClient
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options => {
             options.LoginPath = "/Login/";
         });
+            // testing
+            //services.AddSession(options =>
+            //{
+            //    options.Cookie.HttpOnly = true;
+            //});
+            //end testing
             services.AddMvc();
         }
 
@@ -39,6 +46,10 @@ namespace CSGSIWebClient
 
             // temporarily here
             app.UseAuthentication();
+
+            // testing
+            //app.UseSession();
+            // end testing
 
             app.UseStatusCodePages();
             app.UseStaticFiles(); // for wwwroot

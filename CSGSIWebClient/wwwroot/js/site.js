@@ -236,7 +236,7 @@
                 ]).node().id = `match__${match.id}`;
             }
             dataTable.draw();
-            $('tr').addClass('clickable');
+            dataTable.rows().nodes().to$().addClass('clickable');
         });
     }
 
@@ -295,6 +295,10 @@
         displayPlayerProfile();
     }
 
+    function getKdr(kills, deaths) {
+        return deaths == 0 && kills > 0 ? kills / 1 : kills / deaths;
+    }
+
     function displayPlayerProfile() {
         //getSteamNameAndAvatar(function (output) {
         //    console.log(output);
@@ -306,46 +310,47 @@
             let totalKills = 0;
             let totalDeaths = 0;
             let highestScoreMatch = initialMatch;
-            let bestKdr = initialMatch.deaths == 0 && initialMatch.kills > 0 ? initialMatch.kills / 1 : initialMatch.kills / initialMatch.deaths;
+            let bestKdrMatch = initialMatch;
             let lastMatch = initialMatch;
             for (let i = 0; i < matches.length; i++) {
                 const match = matches[i]
-                const matchKdr = match.deaths == 0 && match.kills > 0 ? match.kills / 1 : match.kills / match.deaths;
+                if (getKdr(match.match_stats.kills, match.match_stats.deaths) > getKdr(bestKdrMatch.match_stats.kills, bestKdrMatch.match_stats.deaths)) {
+                    bestKdrMatch = match;
+                }
                 totalKills += match.match_stats.kills;
                 totalDeaths += match.match_stats.deaths;
                 if (highestScoreMatch.match_stats.score < match.match_stats.score) {
                     highestScoreMatch = match;
                 }
-                if (bestKdr < ) {
-
-                }
-                if () {
-
+                if (match.datetime_start > lastMatch.datetime_start) {
+                    lastMatch = match;
                 }
             }
-            //matches.forEach(function (match) {
-            //    totalKills += match.match_stats.kills;
-            //    totalDeaths += match.match_stats.deaths;
-            //});
 
-            const averageKdr = totalDeaths = 0 && totalKills > 0 ? totalKills / 1 : totalKills / totalDeaths;
-            //console.log(`kdr: ${kdr}`);
-
-            //const stats = match.match_stats;
+            const averageKdr = totalDeaths == 0 && totalKills > 0 ? totalKills / 1 : totalKills / totalDeaths;
             
-            //$('#profile-summary-div dl').append(`
-            //    <dt>Average KDR: </dt>
-            //    <dd>${}</dd>
+            $('#profile-summary-div dl').append(`
+                <dt>Average KDR: </dt>
+                <dd>${averageKdr.toFixed(2)}</dd>
 
-            //    <dt>Highest Match Score: </dt>
-            //    <dd>N/A</dd>
+                <dt>Highest Match Score: </dt>
+                <dd><a href="http://localhost:49424/matches/match/${highestScoreMatch.id}">${highestScoreMatch.match_stats.score}</a></dd>
 
-            //    <dt>Best Match KDR: </dt>
-            //    <dd>N/A</dd>
+                <dt>Best Match KDR: </dt>
+                <dd><a href="http://localhost:49424/matches/match/${bestKdrMatch.id}">${getKdr(bestKdrMatch.match_stats.kills, bestKdrMatch.match_stats.deaths).toFixed(2)}</a></dd>
 
-            //    <dt>Last Match: </dt>
-            //    <dd>N/A</dd>
-            //`);
+                <dt>Last Match: </dt>
+                <dd><a href="http://localhost:49424/matches/match/${lastMatch.id}">${new Date(lastMatch.datetime_start * 1000).toLocaleString()}</a></dd>
+            `);
         });
+    }
+
+    if (window.location.href.toLowerCase() == "http://localhost:49424/logout") {
+        window.setTimeout(function () {
+
+            // Move to a new location or you can do something else
+            window.location.href = "http://localhost:49424";
+
+        }, 5000);
     }
 });

@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using CSGSIWebClient.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +19,15 @@ namespace CSGSIWebClient.Controllers
 {
     public class LoginController : Controller
     {
-        private User _user;
+        //private const string SessionKeyName = "_SteamId";
 
-        public LoginController()
+        private User _user;
+        private IUserService _userService;
+
+        public LoginController(IUserService userService)
         {
             _user = new User();
+            _userService = userService;
         }
 
         // GET: /<controller>/
@@ -42,7 +47,9 @@ namespace CSGSIWebClient.Controllers
 
                     //_userService.SetLogIn(new Login { LoggedIn = true });
 
-                    //SteamId steamId = APIInterface.GetSteamId(user);
+                    SteamId steamId = APIInterface.GetSteamId(user);
+
+                    //HttpContext.Session.SetString(SessionKeyName, steamId.steam_id);
 
                     //_userService.SetSteamId(steamId);
 
@@ -53,7 +60,8 @@ namespace CSGSIWebClient.Controllers
 
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, user.username)
+                        new Claim(ClaimTypes.Name, steamId.steam_id),
+                        //new Claim(ClaimTypes.UserData, steamId.steam_id)
                     };
 
                     var userIdentity = new ClaimsIdentity(claims, "login");

@@ -1,34 +1,13 @@
-﻿@*@model ProfileViewModel*@
-
-@*@using CSGSIWebClient.Utilities;*@
-
-@*@if (Model.CSMatchList.Count > 0)
-{*@
-    //float kdr = Model.GetKDR();
-    //CSMatch lastMatch = Model.GetLastMatch();
-    //CSMatch hightScoreMatch = Model.HighestScoreMatch();
-    //CSMatch bestKDRMatch = Model.BestKDRMatch();
-
-    <div id="profile-div">
+﻿    <div id="profile-div">
         <div id="profile-steam-div">
-            @*<h1>@Model.SteamPlayer.personaname</h1>
+            <h1>@SteamApiInterface.GetSteamPlayers(new SteamId { steam_id = User.Identity.Name })[0].personaname</h1>
 
-            <img src="@Model.SteamPlayer.avatarfull" />*@
+            <img src="@SteamApiInterface.GetSteamPlayers(new SteamId { steam_id = User.Identity.Name})[0].avatarfull" />
         </div>
 
         <div id="profile-summary-div">
             <dl class="dl-horizontal">
-                <dt>Average KDR: </dt>
-                <dd>N/A</dd>
-
-                <dt>Highest Match Score: </dt>
-                <dd>N/A</dd>
-
-                <dt>Best Match KDR: </dt>
-                <dd>N/A</dd>
-
-                <dt>Last Match: </dt>
-                <dd>N/A</dd>
+                
             </dl>
         </div>
     </div>
