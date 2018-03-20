@@ -1,12 +1,16 @@
 ﻿@model RegisterViewModel
 
+@{
+    ViewBag.Title = "Register";
+}
+
 <h1>Register</h1>
 
 <form asp-action="Index" method="post" class="form-horizontal" role="form">
     <div class="form-group">
         <label asp-for="Username" class="col-md-2 control-label"></label>
         <div class="col-md-5">
-            <input asp-for="Username" class="form-control" />
+            <input asp-for="Username" class="form-control" id="input-register-username" />
             <span asp-validation-for="Username" class="text-danger"></span>
         </div>
     </div>
@@ -22,7 +26,7 @@
     <div class="form-group">
         <label asp-for="Password" class="col-md-2 control-label"></label>
         <div class="col-md-5">
-            <input asp-for="Password" class="form-control" />
+            <input asp-for="Password" class="form-control" id="input-register-password" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
     </div>

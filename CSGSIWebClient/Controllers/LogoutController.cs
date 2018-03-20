@@ -11,20 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace CSGSIWebClient.Controllers
 {
     public class LogoutController : Controller
-    {
-        //private IUserService _userService;
-
-        //public LogoutController(IUserService userService)
-        //{
-        //    _userService = userService;
-        //}
-        
+    {        
         public async Task<IActionResult> Index()
         {
-            //_userService.Logout();
             await HttpContext.SignOutAsync();
             return View();
-            //return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -20,15 +20,12 @@ namespace CSGSIWebClient.Controllers
     public class LoginController : Controller
     {
         private User _user;
-        //private IUserService _userService;
 
         public LoginController()
         {
             _user = new User();
-            //_userService = userService;
         }
 
-        // GET: /<controller>/
         public IActionResult Index()
         {
             return View(_user);
@@ -41,25 +38,11 @@ namespace CSGSIWebClient.Controllers
             {
                 if (LoginUser(user.username, user.password))
                 {
-                    //_userService.SetUser(user);
-
-                    //_userService.SetLogIn(new Login { LoggedIn = true });
-
                     SteamId steamId = APIInterface.GetSteamId(user);
-
-                    //HttpContext.Session.SetString(SessionKeyName, steamId.steam_id);
-
-                    //_userService.SetSteamId(steamId);
-
-                    //List<SteamPlayer> playerList = SteamApiInterface.GetSteamPlayers(steamId);
-                    //SteamPlayer steamPlayer = playerList[0];
-
-                    //_userService.SetSteamPlayer(steamPlayer);
 
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, steamId.steam_id),
-                        //new Claim(ClaimTypes.UserData, steamId.steam_id)
+                        new Claim(ClaimTypes.Name, steamId.steam_id)
                     };
 
                     var userIdentity = new ClaimsIdentity(claims, "login");

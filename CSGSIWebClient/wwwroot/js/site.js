@@ -24,6 +24,19 @@
         setUser();
     });
 
+    $('#input-register-username').keyup(function () {
+        user.username = $(this).val();
+        setUser();
+    });
+
+    $('#input-register-password').keyup(function () {
+        if ($('#input-register-username').val()) {
+            user.username = $('#input-register-username').val();
+        }
+        user.password = $(this).val();
+        setUser();
+    });
+
     function setUser() {
         let stringifiedUser = JSON.stringify(user);
         let encryptedUser = CryptoJS.AES.encrypt(stringifiedUser, "Secret Passphrase");
@@ -60,159 +73,169 @@
 
     function displayMinutesPerTeam() {
         getMatches(function (output) {
-            let chartData = {
-                title: "Minutes Played per Team",
-                labels: [],
-                // key is map_name, value is the total minutes
-                data: {}
-            }
-            for (let i = 0; i < output.matches.length; i++) {
-                const match = output.matches[i];
-                const team = match.team;
-                // if key not in dict
-                if (!(team in chartData.data)) {
-                    chartData.labels.push(team);
-                    chartData.data[team] = 0;
+            if (output.matches.length > 0) {
+                let chartData = {
+                    title: "Minutes Played per Team",
+                    labels: [],
+                    // key is map_name, value is the total minutes
+                    data: {}
                 }
-                chartData.data[team] = chartData.data[team] + match.minutes_played;
-            }
-            let data = [];
-            for (let i = 0; i < chartData.labels.length; i++) {
-                data.push(chartData.data[chartData.labels[i]]);
-            }
-            chartMe(chartData.title, chartData.labels, data, "horizontalBar", false, true);
+                for (let i = 0; i < output.matches.length; i++) {
+                    const match = output.matches[i];
+                    const team = match.team;
+                    // if key not in dict
+                    if (!(team in chartData.data)) {
+                        chartData.labels.push(team);
+                        chartData.data[team] = 0;
+                    }
+                    chartData.data[team] = chartData.data[team] + match.minutes_played;
+                }
+                let data = [];
+                for (let i = 0; i < chartData.labels.length; i++) {
+                    data.push(chartData.data[chartData.labels[i]]);
+                }
+                chartMe(chartData.title, chartData.labels, data, "horizontalBar", false, true);
+            }            
         });
     }
 
     function displayMinutesPerMap() {
         getMatches(function (output) {
-            let chartData = {
-                title: "Minutes Played per Map",
-                labels: [],
-                // key is map_name, value is the total minutes
-                data: {}
-            }
-            for (let i = 0; i < output.matches.length; i++) {
-                const match = output.matches[i];
-                const map = match.map_name;
-                // if key not in dict
-                if (!(map in chartData.data)) {
-                    chartData.labels.push(map);
-                    chartData.data[map] = 0;
+            if (output.matches.length > 0) {
+                let chartData = {
+                    title: "Minutes Played per Map",
+                    labels: [],
+                    // key is map_name, value is the total minutes
+                    data: {}
                 }
-                chartData.data[map] = chartData.data[map] + match.minutes_played;
+                for (let i = 0; i < output.matches.length; i++) {
+                    const match = output.matches[i];
+                    const map = match.map_name;
+                    // if key not in dict
+                    if (!(map in chartData.data)) {
+                        chartData.labels.push(map);
+                        chartData.data[map] = 0;
+                    }
+                    chartData.data[map] = chartData.data[map] + match.minutes_played;
+                }
+                let data = [];
+                for (let i = 0; i < chartData.labels.length; i++) {
+                    data.push(chartData.data[chartData.labels[i]]);
+                }
+                chartMe(chartData.title, chartData.labels, data, "bar", false, true);
             }
-            let data = [];
-            for (let i = 0; i < chartData.labels.length; i++) {
-                data.push(chartData.data[chartData.labels[i]]);
-            }
-            chartMe(chartData.title, chartData.labels, data, "bar", false, true);
         });
     }
 
     function displayKdrByMap() {
         getMatches(function (output) {
-            let chartData = {
-                title: "Kill Death Ratio by Map",
-                labels: [],
-                data: {}
-            }
-            for (let i = 0; i < output.matches.length; i++) {
-                const match = output.matches[i];
-                const map = match.map_name;
-                // if key not in dict
-                if (!(map in chartData.data)) {
-                    chartData.labels.push(map);
-                    chartData.data[map] = {
-                        kills: 0,
-                        deaths: 0
-                    };
+            if (output.matches.length > 0) {
+                let chartData = {
+                    title: "Kill Death Ratio by Map",
+                    labels: [],
+                    data: {}
                 }
-                chartData.data[map].kills = chartData.data[map].kills + match.match_stats.kills;
-                chartData.data[map].deaths = chartData.data[map].deaths + match.match_stats.deaths;
-            }
-            let data = [];
-            for (let i = 0; i < chartData.labels.length; i++) {
-                let kdr = 0;
-                let mapObj = chartData.data[chartData.labels[i]];
-                if (mapObj.deaths == 0 && mapObj.kill > 0) {
-                    kdr = mapObj.kills / 1;
-                } else {
-                    kdr = mapObj.kills / mapObj.deaths;
+                for (let i = 0; i < output.matches.length; i++) {
+                    const match = output.matches[i];
+                    const map = match.map_name;
+                    // if key not in dict
+                    if (!(map in chartData.data)) {
+                        chartData.labels.push(map);
+                        chartData.data[map] = {
+                            kills: 0,
+                            deaths: 0
+                        };
+                    }
+                    chartData.data[map].kills = chartData.data[map].kills + match.match_stats.kills;
+                    chartData.data[map].deaths = chartData.data[map].deaths + match.match_stats.deaths;
                 }
-                data.push(Number.parseFloat(kdr).toFixed(2));
-            }
-            chartMe(chartData.title, chartData.labels, data, "pie", true, false);
+                let data = [];
+                for (let i = 0; i < chartData.labels.length; i++) {
+                    let kdr = 0;
+                    let mapObj = chartData.data[chartData.labels[i]];
+                    if (mapObj.deaths == 0 && mapObj.kill > 0) {
+                        kdr = mapObj.kills / 1;
+                    } else {
+                        kdr = mapObj.kills / mapObj.deaths;
+                    }
+                    data.push(Number.parseFloat(kdr).toFixed(2));
+                }
+                chartMe(chartData.title, chartData.labels, data, "pie", true, false);
+            }   
         });
     }
 
     function displayKdrByTeam() {
         getMatches(function (output) {
-            let chartData = {
-                title: "Kill Death Ratio by Team",
-                labels: [],
-                data: {}
-            }
-            for (let i = 0; i < output.matches.length; i++) {
-                const match = output.matches[i];
-                const team = match.team;
-                // if key not in dict
-                if (!(team in chartData.data)) {
-                    chartData.labels.push(team);
-                    chartData.data[team] = {
-                        kills: 0,
-                        deaths: 0
-                    };
+            if (output.matches.length > 0) {
+                let chartData = {
+                    title: "Kill Death Ratio by Team",
+                    labels: [],
+                    data: {}
                 }
-                chartData.data[team].kills = chartData.data[team].kills + match.match_stats.kills;
-                chartData.data[team].deaths = chartData.data[team].deaths + match.match_stats.deaths;
-            }
-            let data = [];
-            for (let i = 0; i < chartData.labels.length; i++) {
-                let kdr = 0;
-                let teamObj = chartData.data[chartData.labels[i]];
-                if (teamObj.deaths == 0 && teamObj.kill > 0) {
-                    kdr = teamObj.kills / 1;
-                } else {
-                    kdr = teamObj.kills / teamObj.deaths;
+                for (let i = 0; i < output.matches.length; i++) {
+                    const match = output.matches[i];
+                    const team = match.team;
+                    // if key not in dict
+                    if (!(team in chartData.data)) {
+                        chartData.labels.push(team);
+                        chartData.data[team] = {
+                            kills: 0,
+                            deaths: 0
+                        };
+                    }
+                    chartData.data[team].kills = chartData.data[team].kills + match.match_stats.kills;
+                    chartData.data[team].deaths = chartData.data[team].deaths + match.match_stats.deaths;
                 }
-                data.push(Number.parseFloat(kdr).toFixed(2));
+                let data = [];
+                for (let i = 0; i < chartData.labels.length; i++) {
+                    let kdr = 0;
+                    let teamObj = chartData.data[chartData.labels[i]];
+                    if (teamObj.deaths == 0 && teamObj.kill > 0) {
+                        kdr = teamObj.kills / 1;
+                    } else {
+                        kdr = teamObj.kills / teamObj.deaths;
+                    }
+                    data.push(Number.parseFloat(kdr).toFixed(2));
+                }
+                chartMe(chartData.title, chartData.labels, data, "doughnut", true, false);
             }
-            chartMe(chartData.title, chartData.labels, data, "doughnut", true, false);
         });
     }
 
     function displayWinsByTeam() {
         getMatches(function (output) {
-            let chartData = {
-                title: "Wins by Team",
-                labels: [],
-                data: {}
-            }
-            for (let i = 0; i < output.matches.length; i++) {
-                const match = output.matches[i];
-                const team = match.team;
-                const winningTeam = match.round_win_team;
-                // if key not in dict
-                if (!(team in chartData.data)) {
-                    chartData.labels.push(team);
-                    chartData.data[team] = {
-                        wins: 0,
-                        losses: 0
-                    };
+            if (output.matches.length > 0) {
+                let chartData = {
+                    title: "Wins by Team",
+                    labels: [],
+                    data: {}
                 }
-                if (team == winningTeam) {
-                    chartData.data[team].wins = chartData.data[team].wins + 1;
-                } else {
-                    chartData.data[team].losses = chartData.data[team].losses + 1;
+                for (let i = 0; i < output.matches.length; i++) {
+                    const match = output.matches[i];
+                    const team = match.team;
+                    const winningTeam = match.round_win_team;
+                    // if key not in dict
+                    if (!(team in chartData.data)) {
+                        chartData.labels.push(team);
+                        chartData.data[team] = {
+                            wins: 0,
+                            losses: 0
+                        };
+                    }
+                    if (team == winningTeam) {
+                        chartData.data[team].wins = chartData.data[team].wins + 1;
+                    } else {
+                        chartData.data[team].losses = chartData.data[team].losses + 1;
+                    }
                 }
+                let data = [];
+                for (let i = 0; i < chartData.labels.length; i++) {
+                    let teamObj = chartData.data[chartData.labels[i]];
+                    data.push(teamObj.wins);
+                }
+                chartMe(chartData.title, chartData.labels, data, "doughnut", true, false);
             }
-            let data = [];
-            for (let i = 0; i < chartData.labels.length; i++) {
-                let teamObj = chartData.data[chartData.labels[i]];
-                data.push(teamObj.wins);
-            }
-            chartMe(chartData.title, chartData.labels, data, "doughnut", true, false);
         });
     }
 
@@ -223,17 +246,19 @@
     function displayStatsTable() {
         getMatches(function (output) {
             var dataTable = $('#my-data-table').DataTable();
-            for (let i = 0; i < output.matches.length; i++) {
-                let match = output.matches[i];
-                dataTable.row.add([
-                    `<td><span class="hidden">${match.datetime_start}</span>${new Date(match.datetime_start * 1000).toLocaleString()}</td>`,
-                    `${match.minutes_played} minutes`,
-                    match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name,
-                    match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team
-                ]).node().id = `match__${match.id}`;
-            }
-            dataTable.draw();
-            dataTable.rows().nodes().to$().addClass('clickable');
+            if (output.matches.length > 0) {
+                for (let i = 0; i < output.matches.length; i++) {
+                    let match = output.matches[i];
+                    dataTable.row.add([
+                        `<td><span class="hidden">${match.datetime_start}</span>${new Date(match.datetime_start * 1000).toLocaleString()}</td>`,
+                        `${match.minutes_played} minutes`,
+                        match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name,
+                        match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team
+                    ]).node().id = `match__${match.id}`;
+                }
+                dataTable.draw();
+                dataTable.rows().nodes().to$().addClass('clickable');
+            }            
         });
     }
 
@@ -303,30 +328,31 @@
         getMatches(function (output) {
             console.log(output);
             const matches = output.matches;
-            const initialMatch = matches[0];
-            let totalKills = 0;
-            let totalDeaths = 0;
-            let highestScoreMatch = initialMatch;
-            let bestKdrMatch = initialMatch;
-            let lastMatch = initialMatch;
-            for (let i = 0; i < matches.length; i++) {
-                const match = matches[i]
-                if (getKdr(match.match_stats.kills, match.match_stats.deaths) > getKdr(bestKdrMatch.match_stats.kills, bestKdrMatch.match_stats.deaths)) {
-                    bestKdrMatch = match;
+            if (matches.length > 0) {
+                const initialMatch = matches[0];
+                let totalKills = 0;
+                let totalDeaths = 0;
+                let highestScoreMatch = initialMatch;
+                let bestKdrMatch = initialMatch;
+                let lastMatch = initialMatch;
+                for (let i = 0; i < matches.length; i++) {
+                    const match = matches[i]
+                    if (getKdr(match.match_stats.kills, match.match_stats.deaths) > getKdr(bestKdrMatch.match_stats.kills, bestKdrMatch.match_stats.deaths)) {
+                        bestKdrMatch = match;
+                    }
+                    totalKills += match.match_stats.kills;
+                    totalDeaths += match.match_stats.deaths;
+                    if (highestScoreMatch.match_stats.score < match.match_stats.score) {
+                        highestScoreMatch = match;
+                    }
+                    if (match.datetime_start > lastMatch.datetime_start) {
+                        lastMatch = match;
+                    }
                 }
-                totalKills += match.match_stats.kills;
-                totalDeaths += match.match_stats.deaths;
-                if (highestScoreMatch.match_stats.score < match.match_stats.score) {
-                    highestScoreMatch = match;
-                }
-                if (match.datetime_start > lastMatch.datetime_start) {
-                    lastMatch = match;
-                }
-            }
 
-            const averageKdr = totalDeaths == 0 && totalKills > 0 ? totalKills / 1 : totalKills / totalDeaths;
-            
-            $('#profile-summary-div dl').append(`
+                const averageKdr = totalDeaths == 0 && totalKills > 0 ? totalKills / 1 : totalKills / totalDeaths;
+
+                $('#profile-summary-div dl').append(`
                 <dt>Average KDR: </dt>
                 <dd>${averageKdr.toFixed(2)}</dd>
 
@@ -339,6 +365,7 @@
                 <dt>Last Match: </dt>
                 <dd><a href="${baseUrl}/matches/match/${lastMatch.id}">${new Date(lastMatch.datetime_start * 1000).toLocaleString()}</a></dd>
             `);
+            }            
         });
     }
 
