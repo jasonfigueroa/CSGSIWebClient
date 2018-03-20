@@ -19,15 +19,13 @@ namespace CSGSIWebClient.Controllers
 {
     public class LoginController : Controller
     {
-        //private const string SessionKeyName = "_SteamId";
-
         private User _user;
-        private IUserService _userService;
+        //private IUserService _userService;
 
-        public LoginController(IUserService userService)
+        public LoginController()
         {
             _user = new User();
-            _userService = userService;
+            //_userService = userService;
         }
 
         // GET: /<controller>/

@@ -1,14 +1,13 @@
 ﻿$(document).ready(function () {
     const user = {};
+    const baseUrl = "http://localhost:57602";
+    //const baseUrl = "https://csgsistattrakr.jasonfigueroa.io";
 
     $('#my-data-table').DataTable();
 
     $('#my-data-table tbody').on('click', '.clickable', function () {
-        //const baseUrl = "http://localhost:57602/matches/match";
-        const baseUrl = "http://localhost:49424/matches/match";
-        //const baseUrl = "http://CSGSIStatTrakr.jasonfigueroa.io/matches/match";
         const id = $(this)[0].id.split("__")[1];
-        let url = `${baseUrl}/${id}`;
+        let url = `${baseUrl}/matches/match/${id}`;
         window.location.href = url;
     });
 
@@ -53,8 +52,9 @@
         }
     }
 
-    if (window.location.href.indexOf("http://localhost:49424/Profile") > -1 || window.location.href.indexOf("http://localhost:49424/profile") > -1) {
-    //if (window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/Profile") > -1 || window.location.href.indexOf("http://csgsistattrakr.jasonfigueroa.io/profile") > -1) {
+    if (window.location.href.indexOf(`${baseUrl}/Profile`) > -1 ||
+        window.location.href.indexOf(`${baseUrl}/profile`) > -1) {
+
         renderChart();
     }
 
@@ -76,7 +76,6 @@
                 }
                 chartData.data[team] = chartData.data[team] + match.minutes_played;
             }
-            //console.log(chartData);
             let data = [];
             for (let i = 0; i < chartData.labels.length; i++) {
                 data.push(chartData.data[chartData.labels[i]]);
@@ -103,7 +102,6 @@
                 }
                 chartData.data[map] = chartData.data[map] + match.minutes_played;
             }
-            //console.log(chartData);
             let data = [];
             for (let i = 0; i < chartData.labels.length; i++) {
                 data.push(chartData.data[chartData.labels[i]]);
@@ -218,8 +216,7 @@
         });
     }
 
-    //if (window.location.href.indexOf("localhost:57602/matches") > -1 || window.location.href.indexOf("localhost:57602/Matches") > -1) {
-    if (window.location.href.indexOf("localhost:49424/matches") > -1 || window.location.href.indexOf("localhost:49424/Matches") > -1) {
+    if (window.location.href.toLowerCase() == `${baseUrl}/matches`) {
         displayStatsTable();
     }
 
@@ -240,8 +237,11 @@
         });
     }
 
-    //if (window.location.href.indexOf("localhost:57602/matches/match") > -1 || window.location.href.indexOf("localhost:57602/Matches/match") > -1) {
-    if (window.location.href.indexOf("localhost:49424/matches/match") > -1 || window.location.href.indexOf("localhost:49424/Matches/match") > -1) {
+    if (window.location.href.indexOf(`${baseUrl}/Matches/Match`) > -1 ||
+        window.location.href.indexOf(`${baseUrl}/Matches/match`) > -1 ||
+        window.location.href.indexOf(`${baseUrl}/matches/Match`) > -1 ||
+        window.location.href.indexOf(`${baseUrl}/matches/match`) > -1) {
+
         displayMatchSummary();
     }
 
@@ -291,7 +291,7 @@
         });
     }
 
-    if (window.location.href.toLocaleLowerCase() == "http://localhost:49424/profile") {
+    if (window.location.href.toLocaleLowerCase() == `${baseUrl}/profile`) {
         displayPlayerProfile();
     }
 
@@ -300,9 +300,6 @@
     }
 
     function displayPlayerProfile() {
-        //getSteamNameAndAvatar(function (output) {
-        //    console.log(output);
-        //});
         getMatches(function (output) {
             console.log(output);
             const matches = output.matches;
@@ -334,23 +331,20 @@
                 <dd>${averageKdr.toFixed(2)}</dd>
 
                 <dt>Highest Match Score: </dt>
-                <dd><a href="http://localhost:49424/matches/match/${highestScoreMatch.id}">${highestScoreMatch.match_stats.score}</a></dd>
+                <dd><a href="${baseUrl}/matches/match/${highestScoreMatch.id}">${highestScoreMatch.match_stats.score}</a></dd>
 
                 <dt>Best Match KDR: </dt>
-                <dd><a href="http://localhost:49424/matches/match/${bestKdrMatch.id}">${getKdr(bestKdrMatch.match_stats.kills, bestKdrMatch.match_stats.deaths).toFixed(2)}</a></dd>
+                <dd><a href="${baseUrl}/matches/match/${bestKdrMatch.id}">${getKdr(bestKdrMatch.match_stats.kills, bestKdrMatch.match_stats.deaths).toFixed(2)}</a></dd>
 
                 <dt>Last Match: </dt>
-                <dd><a href="http://localhost:49424/matches/match/${lastMatch.id}">${new Date(lastMatch.datetime_start * 1000).toLocaleString()}</a></dd>
+                <dd><a href="${baseUrl}/matches/match/${lastMatch.id}">${new Date(lastMatch.datetime_start * 1000).toLocaleString()}</a></dd>
             `);
         });
     }
 
-    if (window.location.href.toLowerCase() == "http://localhost:49424/logout") {
+    if (window.location.href.toLowerCase() == `${baseUrl}/logout`) {
         window.setTimeout(function () {
-
-            // Move to a new location or you can do something else
-            window.location.href = "http://localhost:49424";
-
+            window.location.href = baseUrl;
         }, 5000);
     }
 });

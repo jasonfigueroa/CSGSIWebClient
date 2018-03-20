@@ -22,17 +22,11 @@ namespace CSGSIWebClient
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<IUserService, UserService>();
-            services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IUserService, UserService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        .AddCookie(options => {
-            options.LoginPath = "/Login/";
-        });
-            // testing
-            //services.AddSession(options =>
-            //{
-            //    options.Cookie.HttpOnly = true;
-            //});
-            //end testing
+                .AddCookie(options => {
+                    options.LoginPath = "/Login/";
+                });
             services.AddMvc();
         }
 
@@ -44,21 +38,19 @@ namespace CSGSIWebClient
             // only use the following for development
             app.UseDeveloperExceptionPage();
 
-            // temporarily here
             app.UseAuthentication();
-
-            // testing
-            //app.UseSession();
-            // end testing
 
             app.UseStatusCodePages();
             app.UseStaticFiles(); // for wwwroot
+
+            // may be able to remove the following block since download file is being moved to wwwroot
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
                 Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles")),
                 RequestPath = "/StaticFiles"
             });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

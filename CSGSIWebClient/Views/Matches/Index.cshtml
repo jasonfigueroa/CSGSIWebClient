@@ -20,31 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            @*@foreach (var match in Model.Matches)
-            {
-                <tr class="clickable" id="match__@match.id">
-                    <th scope="row">@DateUtilities.ConvertFromUnixTimestamp(match.datetime_start)</th>
-                    <td>@match.minutes_played min</td>
-
-                    @if (@mapDict.ContainsKey(match.map_name))
-        {
-            <td>@mapDict[match.map_name]</td>
-}
-else
-{
-            <td>@match.map_name</td>
-}
-
-                    @if (teamDict.ContainsKey(match.team))
-        {
-            <td>@teamDict[match.team]</td>
-}
-else
-{
-            <td>@match.team</td>
-}
-                </tr>
-            }*@
+            
         </tbody>
     </table>
 </div>
