@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     const user = {};
-    const baseUrl = "http://localhost:57602";
-    //const baseUrl = "https://csgsistattrakr.jasonfigueroa.io";
+    //const baseUrl = "http://localhost:57602";
+    const baseUrl = "https://csgsistattrakr.jasonfigueroa.io";
 
     $('#my-data-table').DataTable();
 
