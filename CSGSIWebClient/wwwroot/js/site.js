@@ -239,6 +239,13 @@
         });
     }
 
+    function convertEpochToSpecificTimezone(dateTime, offset) {
+        var d = new Date(dateTime);
+        var utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
+        var nd = new Date(utc + (3600000 * offset));
+        return nd.toLocaleString();
+    }
+
     if (window.location.href.toLowerCase() == `${baseUrl}/matches`) {
         displayStatsTable();
     }
@@ -250,7 +257,7 @@
                 for (let i = 0; i < output.matches.length; i++) {
                     let match = output.matches[i];
                     dataTable.row.add([
-                        `<td><span class="hidden">${match.datetime_start}</span>${new Date(match.datetime_start * 1000).toLocaleString()}</td>`,
+                        `<td><span class="hidden">${match.datetime_start}</span>${convertEpochToSpecificTimezone(match.datetime_start, -5)}</td>`,
                         `${match.minutes_played} minutes`,
                         match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name,
                         match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team
@@ -279,7 +286,7 @@
             const win = match.team != match.round_win_team ? false : true;
             $('#match-summary').append(`
                 <dt>Match Start: </dt>
-                <dd>${new Date(match.datetime_start * 1000).toLocaleString()}</dd>
+                <dd>${convertEpochToSpecificTimezone(match.datetime_start, -5)}</dd>
 
                 <dt>Duration: </dt>
                 <dd>${match.minutes_played} minutes</dd>
@@ -363,7 +370,7 @@
                 <dd><a href="${baseUrl}/matches/match/${bestKdrMatch.id}">${getKdr(bestKdrMatch.match_stats.kills, bestKdrMatch.match_stats.deaths).toFixed(2)}</a></dd>
 
                 <dt>Last Match: </dt>
-                <dd><a href="${baseUrl}/matches/match/${lastMatch.id}">${new Date(lastMatch.datetime_start * 1000).toLocaleString()}</a></dd>
+                <dd><a href="${baseUrl}/matches/match/${lastMatch.id}">${convertEpochToSpecificTimezone(lastMatch.datetime_start, -5)}</a></dd>
             `);
             }            
         });
