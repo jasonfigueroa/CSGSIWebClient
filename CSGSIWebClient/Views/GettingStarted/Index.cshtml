@@ -3,9 +3,53 @@
 }
 
 <h1>Getting Started</h1>
+<h2>Install the Application</h2>
+<p class="=" text-warning">Note: If you are prompted by Windows to allow changes on your computer click Yes.</p>
 <ol>
     <li>Register on this site, you will need your steam id.</li>
-    <li>Download and install the console application.</li>
-    <li>Run the application along side the game to start collecting data.</li>
-    <li>Login to this site to view your game stats.</li>
+    <li>On successful registration you will be automatically logged in.</li>
+    <li>Once logged in, on the navigation bar click on Downloads to download the setup file for the desktop application.</li>
+    <li>Create an empty folder somewhere.</li>
+    <li>Run the downloaded setup file.</li>
+    <li>Click Next on the initial screen of the installer.</li>
+    <li>On the following screen you’ll be prompted for the desired location for the installation, search for the folder you created.</li>
+    <li>Click Next then Next and finally Close when the installation is finished.</li>
+</ol>
+<h2>Install the Configuration File</h2>
+<ol>
+    <li>Navigate to your csgo/cfg folder an example of the location of this cfg folder is <span class="text-warning">C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\cfg</span></li>
+    <li>In the cfg folder create a new file called <span class="text-warning">gamestate_integration_test.cfg</span></li>
+    <li>In this configuration file paste in the following and save the file.</li>
+</ol>
+<pre><code>"CSGSI Example"
+{
+    "uri" "http://localhost:3000"
+    "timeout" "5.0"
+    "auth"
+    {
+        "token"				"CSGSI Test"
+    }
+    "data"
+    {
+        "provider"              	"1"
+        "map"                   	"1"
+        "round"                 	"1"
+        "player_id"					"1"
+        "player_weapons"			"1"
+        "player_match_stats"		"1"
+        "player_state"				"1"
+        "allplayers_id"				"1"
+        "allplayers_state"			"1"
+        "allplayers_match_stats"	"1"
+    }
+}</code></pre>
+<h2>Running the Desktop Application</h2>
+<ol>
+    <li>Navigate to the location where you installed the application.</li>
+    <li>Double click the executable titled, <span class="text-warning">setup_CSGSI_Stat_Trakr.msi</span></li>
+    <li>When prompted for a username and password, enter the username and password you used to register with on the site.</li>
+    <li>On successful authentication the app will read “Listening …” and standby for game traffic.</li>
+    <li>At this point you can start playing CSGO.</li>
+    <li>On completion of a match your match data will stored in the database.</li>
+    <li>To view you data log onto the website and click on either Stats or you Steam Name, both can be found on the navigation bar.</li>
 </ol>
