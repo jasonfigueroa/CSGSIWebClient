@@ -320,3 +320,8 @@ ASALocalRun/
 *.binlog
 
 fontawesome-all.min.css
+.vscode
+temp
+*.db
+production-notes
+CSGSIWebClient/wwwroot/lib/*
