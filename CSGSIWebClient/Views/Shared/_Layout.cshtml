@@ -56,6 +56,8 @@
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js" ></script>
 
+<script type="text/javascript" src="~/js/globals.js"></script>
+<script type="text/javascript" src="~/js/util.js"></script>
 <script type="text/javascript" src="~/js/charts.js"></script>
 <script type = "text/javascript" src="~/js/APIInterface.js"></script>
 @*<script type = "text/javascript" src="~/js/SteamAPIInterface.js"></script>*@
@@ -85,5 +87,7 @@
         </script>
         <script type="text/javascript" src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>*@
+
+@RenderSection("Scripts", required: false);
 </body>
 </html>

@@ -1,15 +1,14 @@
 ﻿$(document).ready(function () {
     const user = {};
     //const baseUrl = "http://localhost:57602";
-    const baseUrl = "https://csgsistattrakr.jasonfigueroa.io";
 
-    $('#my-data-table').DataTable();
+    // $('#my-data-table').DataTable();
 
-    $('#my-data-table tbody').on('click', '.clickable', function () {
-        const id = $(this)[0].id.split("__")[1];
-        let url = `${baseUrl}/matches/match/${id}`;
-        window.location.href = url;
-    });
+    // $('#my-data-table tbody').on('click', '.clickable', function () {
+    //     const id = $(this)[0].id.split("__")[1];
+    //     let url = `${baseUrl}/matches/match/${id}`;
+    //     window.location.href = url;
+    // });
 
     $('#input-username').keyup(function () {
         user.username = $(this).val();
@@ -239,87 +238,87 @@
         });
     }
 
-    function convertFromUTC(utcDateTime) {
-        const d = new Date(utcDateTime * 1000);
-        return d.toGMTString();
-    }
+    // function convertFromUTC(utcDateTime) {
+    //     const d = new Date(utcDateTime * 1000);
+    //     return d.toGMTString();
+    // }
 
-    if (window.location.href.toLowerCase() == `${baseUrl}/matches`) {
-        displayStatsTable();
-    }
+    // if (window.location.href.toLowerCase() == `${baseUrl}/matches`) {
+    //     displayStatsTable();
+    // }
 
-    function displayStatsTable() {
-        getMatches(function (output) {
-            var dataTable = $('#my-data-table').DataTable();
-            if (output.matches.length > 0) {
-                for (let i = 0; i < output.matches.length; i++) {
-                    let match = output.matches[i];
-                    dataTable.row.add([
-                        `<td><span class="hidden">${match.datetime_start}</span>${convertFromUTC(match.datetime_start)}</td>`,
-                        `${match.minutes_played} minutes`,
-                        match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name,
-                        match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team
-                    ]).node().id = `match__${match.id}`;
-                }
-                dataTable.draw();
-                dataTable.rows().nodes().to$().addClass('clickable');
-            }            
-        });
-    }
+    // function displayStatsTable() {
+    //     getMatches(function (output) {
+    //         var dataTable = $('#my-data-table').DataTable();
+    //         if (output.matches.length > 0) {
+    //             for (let i = 0; i < output.matches.length; i++) {
+    //                 let match = output.matches[i];
+    //                 dataTable.row.add([
+    //                     `<td><span class="hidden">${match.datetime_start}</span>${convertFromUTC(match.datetime_start)}</td>`,
+    //                     `${match.minutes_played} minutes`,
+    //                     match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name,
+    //                     match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team
+    //                 ]).node().id = `match__${match.id}`;
+    //             }
+    //             dataTable.draw();
+    //             dataTable.rows().nodes().to$().addClass('clickable');
+    //         }            
+    //     });
+    // }
 
-    if (window.location.href.indexOf(`${baseUrl}/Matches/Match`) > -1 ||
-        window.location.href.indexOf(`${baseUrl}/Matches/match`) > -1 ||
-        window.location.href.indexOf(`${baseUrl}/matches/Match`) > -1 ||
-        window.location.href.indexOf(`${baseUrl}/matches/match`) > -1) {
+    // if (window.location.href.indexOf(`${baseUrl}/Matches/Match`) > -1 ||
+    //     window.location.href.indexOf(`${baseUrl}/Matches/match`) > -1 ||
+    //     window.location.href.indexOf(`${baseUrl}/matches/Match`) > -1 ||
+    //     window.location.href.indexOf(`${baseUrl}/matches/match`) > -1) {
 
-        displayMatchSummary();
-    }
+    //     displayMatchSummary();
+    // }
 
-    function displayMatchSummary() {
-        const urlSplit = window.location.href.split('/');
-        const id = urlSplit[urlSplit.length - 1];
-        getMatch(id, function (output) {
-            console.log(output);
-            const match = output;
-            const win = match.team != match.round_win_team ? false : true;
-            $('#match-summary').append(`
-                <dt>Match Start: </dt>
-                <dd>${convertFromUTC(match.datetime_start)}</dd>
+    // function displayMatchSummary() {
+    //     const urlSplit = window.location.href.split('/');
+    //     const id = urlSplit[urlSplit.length - 1];
+    //     getMatch(id, function (output) {
+    //         console.log(output);
+    //         const match = output;
+    //         const win = match.team != match.round_win_team ? false : true;
+    //         $('#match-summary').append(`
+    //             <dt>Match Start: </dt>
+    //             <dd>${convertFromUTC(match.datetime_start)}</dd>
 
-                <dt>Duration: </dt>
-                <dd>${match.minutes_played} minutes</dd>
+    //             <dt>Duration: </dt>
+    //             <dd>${match.minutes_played} minutes</dd>
 
-                <dt>Map: </dt>
-                <dd>${match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name}</dd>
+    //             <dt>Map: </dt>
+    //             <dd>${match.map_name in decodes.mapDecodes ? decodes.mapDecodes[match.map_name] : match.map_name}</dd>
 
-                <dt>Team: </dt>
-                <dd>${match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team}</dd>
+    //             <dt>Team: </dt>
+    //             <dd>${match.team in decodes.teamDecodes ? decodes.teamDecodes[match.team] : match.team}</dd>
 
-                <dt>Win/Loss: </dt>
-                <dd><span class="${win ? "text-success" : "text-danger"}">${win ? "Win" : "Loss"}</span></dd>
-            `);
-            const stats = match.match_stats;
-            $('#match-player-stats').append(`
-                <dt>KDR: </dt>
-                <dd>${(stats.deaths == 0 && stats.kills > 0 ? stats.kills / 1 : stats.kills / stats.deaths).toFixed(2)}</dd>
+    //             <dt>Win/Loss: </dt>
+    //             <dd><span class="${win ? "text-success" : "text-danger"}">${win ? "Win" : "Loss"}</span></dd>
+    //         `);
+    //         const stats = match.match_stats;
+    //         $('#match-player-stats').append(`
+    //             <dt>KDR: </dt>
+    //             <dd>${(stats.deaths == 0 && stats.kills > 0 ? stats.kills / 1 : stats.kills / stats.deaths).toFixed(2)}</dd>
 
-                <dt>Kills: </dt>
-                <dd>${stats.kills}</dd>
+    //             <dt>Kills: </dt>
+    //             <dd>${stats.kills}</dd>
 
-                <dt>Assists: </dt>
-                <dd>${stats.assists}</dd>
+    //             <dt>Assists: </dt>
+    //             <dd>${stats.assists}</dd>
 
-                <dt>Deaths: </dt>
-                <dd>${stats.deaths}</dd>
+    //             <dt>Deaths: </dt>
+    //             <dd>${stats.deaths}</dd>
 
-                <dt>MVPs: </dt>
-                <dd>${stats.mvps}</dd>
+    //             <dt>MVPs: </dt>
+    //             <dd>${stats.mvps}</dd>
 
-                <dt>Score: </dt>
-                <dd>${stats.score}</dd>
-            `);
-        });
-    }
+    //             <dt>Score: </dt>
+    //             <dd>${stats.score}</dd>
+    //         `);
+    //     });
+    // }
 
     if (window.location.href.toLocaleLowerCase() == `${baseUrl}/profile`) {
         displayPlayerProfile();

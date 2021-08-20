@@ -1,24 +1,4 @@
-﻿const decodes = {
-    mapDecodes: {
-        de_cache: "Cache",
-        de_dust2: "Dust II",
-        de_inferno: "Inferno",
-        de_mirage: "Mirage",
-        de_cbble: "Cobblestone",
-        de_train: "Train",
-        de_overpass: "Overpass",
-        de_nuke: "Nuke",
-        de_canals: "Canals",
-        de_austria: "Austria",
-        de_shipped: "Shipped"
-    },
-    teamDecodes: {
-        T: "Terrorists",
-        CT: "Counter-Terrorists"
-    }
-};
-
-//  Params
+﻿//  Params
 //  title:      string representing the title of the chart
 //  label:      list of the labels to be used along the x axis
 //  data:       list of the data values to be charted corresponding to each label
