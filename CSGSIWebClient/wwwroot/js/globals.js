@@ -1,5 +1,7 @@
 const baseUrl = "http://localhost:5000";
 
+const secret = "Secret Passphrase";
+
 const decodes = {
     mapDecodes: {
         de_cache: "Cache",
