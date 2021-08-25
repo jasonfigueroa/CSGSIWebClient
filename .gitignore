@@ -325,3 +325,4 @@ temp
 *.db
 production-notes
 CSGSIWebClient/wwwroot/lib/*
+CSGSIWebClient.SeleniumTests/credentials.txt
