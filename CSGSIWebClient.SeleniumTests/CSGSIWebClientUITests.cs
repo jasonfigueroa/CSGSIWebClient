@@ -12,6 +12,7 @@ namespace CSGSIWebClient.SeleniumTests
     public class CSGSIWebClientUITests
     {
         private readonly bool _isHeadless = false;
+        private readonly int _timeout = 5;
         private readonly string _url = @"http://localhost:5000";
 
         [Fact]
@@ -24,7 +25,7 @@ namespace CSGSIWebClient.SeleniumTests
             {                
                 Login(driver);
 
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(_timeout));
 
                 IWebElement page5 = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("/html/body/div/div/div/div/div[3]/div[2]/div/ul/li[5]/a")));
                 page5.Click();
@@ -66,7 +67,7 @@ namespace CSGSIWebClient.SeleniumTests
             {                
                 Login(driver);
 
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(_timeout));
 
                 IWebElement profileLink = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("/html/body/nav/div/div[2]/form/ul/li[2]/a")));
                 profileLink.Click();
@@ -90,7 +91,7 @@ namespace CSGSIWebClient.SeleniumTests
         {
             Credentials credentials = GetCredentials();
             driver.Navigate().GoToUrl(_url);                
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(_timeout));
             
             var loginLink = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("Log in")));            
             loginLink.Click();
