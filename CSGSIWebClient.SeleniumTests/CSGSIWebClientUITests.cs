@@ -43,8 +43,6 @@ namespace CSGSIWebClient.SeleniumTests
                 var dataTableSearchField = driver.FindElementByXPath("/html/body/div/div/div/div/div[1]/div[2]/div/label/input");
                 dataTableSearchField.SendKeys("cache");
 
-                // //*[@id="match__7"]
-
                 IWebElement match7 = driver.FindElementByXPath("//*[@id=\"match__7\"]");
 
                 var actions = new Actions(driver);
