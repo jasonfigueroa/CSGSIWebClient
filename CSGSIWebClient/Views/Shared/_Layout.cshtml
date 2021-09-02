@@ -1,16 +1,37 @@
 ﻿<!DOCTYPE html>
 
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/chart.js/dist/Chart.min.css" />
-    <link rel="stylesheet" href="~/lib/datatables/media/css/dataTables.bootstrap.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" />
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/chart.js/dist/Chart.min.css" />
+        <link rel="stylesheet" href="~/lib/datatables/media/css/dataTables.bootstrap.min.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+            integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+            crossorigin="anonymous" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
+            asp-fallback-href="~/lib/chart.js/dist/Chart.min.css"
+            integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap.min.css"
+            asp-fallback-href="~/lib/datatables/media/css/dataTables.bootstrap.min.css"
+            integrity="sha512-BMbq2It2D3J17/C7aRklzOODG1IQ3+MHw3ifzBHMBwGO/0yUqYmsStgBjI0z5EYlaDEFnvYV7gNYdD3vFLRKsA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" />
     <link rel="shortcut icon" href="~/images/favicon-line-chart.ico" type="image/x-icon">
 </head>
+
 <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -30,63 +51,75 @@
                     <li><a asp-area="" asp-controller="About" asp-action="Index">About</a></li>
                     <li><a asp-area="" asp-controller="TechnicalDetails" asp-action="Index">Technical Details</a></li>
                     @if (User.Identity.IsAuthenticated)
-    {
-                <li><a asp-area="" asp-controller="Matches" asp-action="Index">Stats</a></li>
-                <li><a href="https://csgsistattrakr.jasonfigueroa.io/downloads/setup_CSGSI_Stat_Trakr.msi">Download</a></li>
-                @*<li><a href="https://csgostattrakr.jasonfigueroa.io/downloads/setup_CSGO_Stat_Trakr.msi">Download</a></li>*@
-}
+                    {
+                        <li><a asp-area="" asp-controller="Matches" asp-action="Index">Stats</a></li>
+                        <li><a
+                            href="https://csgsistattrakr.jasonfigueroa.io/downloads/setup_CSGSI_Stat_Trakr.msi">Download</a>
+                        </li>
+                        @*<li><a
+                            href="https://csgostattrakr.jasonfigueroa.io/downloads/setup_CSGO_Stat_Trakr.msi">Download</a></li>*@
+                    }
                 </ul>
-@await Html.PartialAsync("_LoginPartial")
-</div>
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </nav>
 
-</div>
+    <div class="container content-body">
+        <div class="row">
+            @RenderBody()
+        </div>
+    </div>
 
-</nav>
-
-
-<div class="container content-body">
-<div class="row">
-@RenderBody()
-</div>
-</div>
-
-<script type="text/javascript" src="~/lib/crypto-js/crypto-js.js"></script>
-<script type="text/javascript" src="~/lib/chart.js/dist/Chart.min.js"></script>
-
-<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js" ></script>
-
-<script type="text/javascript" src="~/js/globals.js"></script>
-<script type="text/javascript" src="~/js/util.js"></script>
-<script type="text/javascript" src="~/js/charts.js"></script>
-<script type = "text/javascript" src="~/js/APIInterface.js"></script>
-@*<script type = "text/javascript" src="~/js/SteamAPIInterface.js"></script>*@
-
-<script type="text/javascript" src="~/lib/datatables/media/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.min.js"></script>
-
-                @* temporarily off, want to read about this and is why I'm leaving it here *@
-                @*<environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+    <environment include="Development">
+        <script type="text/javascript" src="~/lib/crypto-js/crypto-js.js"></script>
+        <script type="text/javascript" src="~/lib/chart.js/dist/Chart.min.js"></script>
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/lib/datatables/media/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.min.js"></script>
     </environment>
     <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script type="text/javascript" src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>*@
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"
+            asp-fallback-src="~/lib/crypto-js/crypto-js.js"
+            integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+            </script>
 
-@RenderSection("Scripts", required: false);
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+            asp-fallback-src="~/lib/chart.js/dist/Chart.min.js"
+            integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+            </script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+            </script>
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+            </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
+            asp-fallback-src="~/lib/datatables/media/js/jquery.dataTables.min.js"
+            integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+            </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap.min.js"
+            asp-fallback-src="~/lib/datatables/media/js/dataTables.bootstrap.min.js"
+            integrity="sha512-F0E+jKGaUC90odiinxkfeS3zm9uUT1/lpusNtgXboaMdA3QFMUez0pBmAeXGXtGxoGZg3bLmrkSkbK1quua4/Q=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+            </script>
+    </environment>
+
+    <script type="text/javascript" src="~/js/globals.js"></script>
+    <script type="text/javascript" src="~/js/util.js"></script>
+    <script type="text/javascript" src="~/js/charts.js"></script>
+    <script type="text/javascript" src="~/js/APIInterface.js"></script>
+
+    @RenderSection("Scripts", required: false);
 </body>
+
 </html>
