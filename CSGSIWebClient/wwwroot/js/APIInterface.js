@@ -1,12 +1,4 @@
-﻿function getUser() {
-    let stringifiedUser = localStorage.getItem("user");
-    let decryptedUser = CryptoJS.AES.decrypt(stringifiedUser, "Secret Passphrase");
-    let stringifiedDecryptedUser = decryptedUser.toString(CryptoJS.enc.Utf8);
-    return JSON.parse(stringifiedDecryptedUser);
-    //return JSON.parse(stringifiedUser);
-}
-
-function getMatches(handleData) {
+﻿function getMatches(handleData) {
     const user = getUser();
 
     $.ajax({
