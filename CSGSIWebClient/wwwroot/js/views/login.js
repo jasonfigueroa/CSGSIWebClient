@@ -3,15 +3,11 @@ const loginUser = {};
 const $loginUsername = $('#input-username');
 const $loginPassword = $('#input-password'); 
 
-$loginUsername.keyup(function () {
-    loginUser.username = $(this).val();
+function onSubmitClick(item) {
+    loginUser.username = $loginUsername.val();
+    loginUser.password = $loginPassword.val();
+    
     setUser(loginUser);
-});
 
-$loginPassword.keyup(function () {
-    // if ($loginUsername.val()) {
-    //     loginUser.username = $loginUsername.val();
-    // }
-    loginUser.password = $(this).val();
-    setUser(loginUser);
-});
+    return true;
+}

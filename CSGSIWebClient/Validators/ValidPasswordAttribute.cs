@@ -12,7 +12,12 @@ namespace CSGSIWebClient.Validators
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            User user = (User)validationContext.ObjectInstance;
+            UserLogin userLogin = (UserLogin)validationContext.ObjectInstance;
+
+            User user = new User()
+            {
+                username = userLogin.username, password = userLogin.password
+            };
 
             if (!APIInterface.IsValidUser(user))
             {

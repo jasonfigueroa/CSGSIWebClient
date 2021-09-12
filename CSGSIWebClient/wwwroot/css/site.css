@@ -43,6 +43,12 @@
     display: none;
 }
 
+#stay-logged-in {
+    margin: 0;
+    height: 34px;
+    width: 5%;
+}
+
 /*#my-chart {
     width: 400px;
     height: 400px;

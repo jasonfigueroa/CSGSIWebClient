@@ -32,6 +32,8 @@ namespace CSGSIWebClient
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Login/";
+                    options.CookieSecure = CookieSecurePolicy.Always;
+                    // options.CookieHttpOnly = false;
                 });
 
             services.AddMvc();

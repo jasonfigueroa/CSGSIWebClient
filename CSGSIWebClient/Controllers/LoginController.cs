@@ -12,6 +12,7 @@ using CSGSIWebClient.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,42 +20,64 @@ namespace CSGSIWebClient.Controllers
 {
     public class LoginController : Controller
     {
-        private User _user;
+        private UserLogin _userLogin;
 
         public LoginController()
         {
-            _user = new User();
+            _userLogin = new UserLogin(); // not sure if this is used anywhere
         }
 
         public IActionResult Index()
         {
-            return View(_user);
+            return View(_userLogin);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(User user)
+        public async Task<IActionResult> Index(UserLogin userLogin, string returnUrl = "")
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                User user = new User()
+                {
+                    username = userLogin.username,
+                    password = userLogin.password
+                };
+
                 if (LoginUser(user.username, user.password))
                 {
-                    SteamId steamId = APIInterface.GetSteamId(user);
+                    SteamId steamId = APIInterface.GetSteamId(user); // fix the casing on the User properties
 
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, steamId.steam_id)
                     };
 
-                    var userIdentity = new ClaimsIdentity(claims, "login");
+                    var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var authProperties = new AuthenticationProperties
+                    {
+                        // AllowRefresh = true, // Not sure if this is for JWT Refresh Tokens
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7),
+                        IsPersistent = userLogin.stayLoggedIn ? true : false,
+                        IssuedUtc = DateTime.Now
+                    };
 
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-                    await HttpContext.SignInAsync(principal);
 
-                    return RedirectToAction("Index", "Matches");
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
+
+                    if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Matches");
+                    }
                 }
             }
 
-            return View(user);
+            return View(userLogin);
         }
 
         private bool LoginUser(string username, string password)

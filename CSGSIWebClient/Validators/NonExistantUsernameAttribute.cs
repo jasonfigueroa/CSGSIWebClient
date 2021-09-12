@@ -12,9 +12,9 @@ namespace CSGSIWebClient.Validators
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            User user = (User)validationContext.ObjectInstance;
+            UserLogin userLogin = (UserLogin)validationContext.ObjectInstance;
 
-            APIMessage apiMessage = APIInterface.IsUsernameInDb(user.username).GetAwaiter().GetResult();
+            APIMessage apiMessage = APIInterface.IsUsernameInDb(userLogin.username).GetAwaiter().GetResult();
 
             if (apiMessage.Message == "That username is currently available.")
             {
