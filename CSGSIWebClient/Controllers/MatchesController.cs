@@ -17,12 +17,32 @@ namespace CSGSIWebClient.Controllers
         [Authorize]
         public IActionResult Index()
         {
+            if (HttpContext.Request.Query["routedFromLogin"] == "1")
+            {
+                JWT jwt = new JWT()
+                {
+                    access_token = HttpContext.User.Claims.Where(c => c.Type == "AccessToken").FirstOrDefault().Value,
+                    refresh_token = HttpContext.User.Claims.Where(c => c.Type == "RefreshToken").FirstOrDefault().Value,
+                };
+                ViewBag.JWT = jwt;
+            }
+
             return View();
         }
 
         [Authorize]
         public IActionResult Match(int id)
         {
+            if (HttpContext.Request.Query["routedFromLogin"] == "1")
+            {
+                JWT jwt = new JWT()
+                {
+                    access_token = HttpContext.User.Claims.Where(c => c.Type == "AccessToken").FirstOrDefault().Value,
+                    refresh_token = HttpContext.User.Claims.Where(c => c.Type == "RefreshToken").FirstOrDefault().Value,
+                };
+                ViewBag.JWT = jwt;
+            }
+
             return View();
         }
     }

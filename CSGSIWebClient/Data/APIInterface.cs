@@ -1,5 +1,6 @@
 ﻿using CSGSIWebClient.Models;
 using CSGSIWebClient.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,7 @@ namespace CSGSIWebClient.Data
 {
     public class APIInterface
     {
-        //private IUserService _userService;
-
-        //public APIInterface(IUserService userService)
-        //{
-        //    _userService = userService;
-        //}
+        private static string _apiUrl = "http://localhost:3000";
 
         public static bool IsValidUser(User user)
         {
@@ -29,9 +25,14 @@ namespace CSGSIWebClient.Data
             return true;
         }
 
+        public static JWT LoginUser(User user)
+        {
+            return Auth(user).GetAwaiter().GetResult();
+        }
+
         private static async Task<JWT> Auth(User user)
         {
-            string url = "https://api.jasonfigueroa.io/auth";
+            string url = $"{_apiUrl}/login";
 
             using (HttpClient client = new HttpClient())
 
@@ -51,11 +52,11 @@ namespace CSGSIWebClient.Data
 
         private static async Task<CSMatch> GetCSMatchAsync(JWT jwt, int matchId)
         {
-            string url = $"https://api.jasonfigueroa.io/match/{matchId}";
+            string url = $"{_apiUrl}/match/{matchId}";
 
             HttpClient client = new HttpClient();
 
-            client.DefaultRequestHeaders.Add("Authorization", $"JWT {jwt.access_token}");        
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {jwt.access_token}");        
 
             HttpResponseMessage res = await client.GetAsync(url);
 
@@ -74,11 +75,11 @@ namespace CSGSIWebClient.Data
 
         private static async Task<CSMatchList> GetCSMatchesAsync(JWT jwt)
         {
-            string url = $"https://api.jasonfigueroa.io/match/list";
+            string url = $"{_apiUrl}/match/list";
 
             HttpClient client = new HttpClient();
 
-            client.DefaultRequestHeaders.Add("Authorization", $"JWT {jwt.access_token}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {jwt.access_token}");
 
             HttpResponseMessage res = await client.GetAsync(url);
 
@@ -95,13 +96,17 @@ namespace CSGSIWebClient.Data
             return GetSteamIdAsync(jwt).GetAwaiter().GetResult();
         }
 
+        public static SteamId GetSteamId(JWT jwt)
+        {
+            return GetSteamIdAsync(jwt).GetAwaiter().GetResult();
+        }
         private static async Task<SteamId> GetSteamIdAsync(JWT jwt)
         {
-            string url = "https://api.jasonfigueroa.io/user/steamid";
+            string url = $"{_apiUrl}/user/steamid";
 
             HttpClient client = new HttpClient();
 
-            client.DefaultRequestHeaders.Add("Authorization", $"JWT {jwt.access_token}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {jwt.access_token}");
 
             HttpResponseMessage res = await client.GetAsync(url);
 
@@ -119,7 +124,7 @@ namespace CSGSIWebClient.Data
 
         private static async Task RegisterUserAsync(Register register)
         {
-            string url = "https://api.jasonfigueroa.io/register";
+            string url = $"{_apiUrl}/register";
 
             HttpClient client = new HttpClient();
 
@@ -128,7 +133,7 @@ namespace CSGSIWebClient.Data
 
         public static async Task<APIMessage> IsUsernameInDb(string username)
         {
-            string url = $"https://api.jasonfigueroa.io/usernameexists/{username}";
+            string url = $"{_apiUrl}/usernameexists/{username}";
 
             HttpClient client = new HttpClient();
 
@@ -143,7 +148,7 @@ namespace CSGSIWebClient.Data
 
         public static async Task<APIMessage> IsSteamIdInDb(string steamId)
         {
-            string url = $"https://api.jasonfigueroa.io/steamidexists/{steamId}";
+            string url = $"{_apiUrl}/steamidexists/{steamId}";
 
             HttpClient client = new HttpClient();
 

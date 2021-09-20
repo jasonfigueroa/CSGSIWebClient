@@ -43,13 +43,17 @@ namespace CSGSIWebClient.Controllers
                     password = userLogin.password
                 };
 
-                if (LoginUser(user.username, user.password))
+                JWT jwt = APIInterface.LoginUser(new User { username = user.username, password = user.password });
+
+                if (jwt != null)
                 {
-                    SteamId steamId = APIInterface.GetSteamId(user); // fix the casing on the User properties
+                    SteamId steamId = APIInterface.GetSteamId(jwt); // fix the casing on the User properties
 
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, steamId.steam_id)
+                        new Claim(ClaimTypes.Name, steamId.steam_id),
+                        new Claim("AccessToken", jwt.access_token),
+                        new Claim("RefreshToken", jwt.refresh_token)
                     };
 
                     var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -68,11 +72,11 @@ namespace CSGSIWebClient.Controllers
 
                     if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
-                        return Redirect(returnUrl);
+                        return Redirect($"{returnUrl}?routedFromLogin=1");
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Matches");
+                        return Redirect("http://localhost:5000/Matches?routedFromLogin=1");
                     }
                 }
             }
