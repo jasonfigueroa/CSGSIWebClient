@@ -32,7 +32,7 @@ namespace CSGSIWebClient
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Login/";
-                    options.CookieSecure = CookieSecurePolicy.Always;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                     // options.CookieHttpOnly = false;
                 });
 
