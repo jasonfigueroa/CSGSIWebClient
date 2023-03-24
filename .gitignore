@@ -326,3 +326,4 @@ temp
 production-notes
 CSGSIWebClient/wwwroot/lib/*
 CSGSIWebClient.SeleniumTests/credentials.txt
+CSGSIWebClient/wwwroot/js/secrets.js

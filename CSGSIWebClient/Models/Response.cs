@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CSGSIWebClient.Models
 {
     public class Response
     {
-        public List<SteamPlayer> players { get; set; }
+        [JsonProperty("players")]
+        public List<SteamPlayerResponse> Players { get; set; }
     }
 }

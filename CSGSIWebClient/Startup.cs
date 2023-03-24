@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using CSGSIWebClient.Models;
+﻿using CSGSIWebClient.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 
 namespace CSGSIWebClient
 {
@@ -36,6 +28,9 @@ namespace CSGSIWebClient
                     // options.CookieHttpOnly = false;
                 });
 
+            services.AddScoped<IApiService, ApiService>();
+            services.AddScoped<ISteamApiService, SteamApiService>();
+
             services.AddMvc();
 
             if (_env.IsDevelopment())
@@ -48,7 +43,13 @@ namespace CSGSIWebClient
                 {
                     pipeline.AddJavaScriptBundle(
                         "js/dist/bundle.js", // destination
-                        "js/*.js"
+                        //"js/*.js" // This would be used to bundle all js files in js directory
+                        "js/urls.js",
+                        "js/secrets.js",
+                        "js/globals.js",
+                        "js/util.js",
+                        "js/charts.js",
+                        "js/APIInterface.js"
                     );
                     pipeline.MinifyJsFiles(
                         "js/views/*.js"
