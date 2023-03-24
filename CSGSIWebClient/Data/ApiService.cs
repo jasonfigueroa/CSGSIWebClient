@@ -43,7 +43,7 @@ namespace CSGSIWebClient.Data
 
             HttpClient client = new HttpClient();
 
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {jwt.access_token}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {jwt.AccessToken}");
 
             HttpResponseMessage res = await client.GetAsync(url);
 

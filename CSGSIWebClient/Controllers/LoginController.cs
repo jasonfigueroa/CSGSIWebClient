@@ -51,15 +51,15 @@ namespace CSGSIWebClient.Controllers
 
                 JWT jwt = _apiService.LoginUser(user);
 
-                if (jwt.access_token != null && jwt.refresh_token != null)
+                if (jwt.AccessToken != null && jwt.RefreshToken != null)
                 {
                     SteamId steamId = _apiService.GetSteamIdAsync(jwt).GetAwaiter().GetResult();
 
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, steamId.Id),
-                        new Claim("AccessToken", jwt.access_token),
-                        new Claim("RefreshToken", jwt.refresh_token)
+                        new Claim("AccessToken", jwt.AccessToken),
+                        new Claim("RefreshToken", jwt.RefreshToken)
                     };
 
                     var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

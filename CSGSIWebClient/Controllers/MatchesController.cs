@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CSGSIWebClient.Data;
+﻿using System.Linq;
 using CSGSIWebClient.Models;
-using CSGSIWebClient.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +16,8 @@ namespace CSGSIWebClient.Controllers
             {
                 JWT jwt = new JWT()
                 {
-                    access_token = HttpContext.User.Claims.Where(c => c.Type == "AccessToken").FirstOrDefault().Value,
-                    refresh_token = HttpContext.User.Claims.Where(c => c.Type == "RefreshToken").FirstOrDefault().Value,
+                    AccessToken = HttpContext.User.Claims.Where(c => c.Type == "AccessToken").FirstOrDefault().Value,
+                    RefreshToken = HttpContext.User.Claims.Where(c => c.Type == "RefreshToken").FirstOrDefault().Value,
                 };
                 ViewBag.JWT = jwt;
             }
@@ -37,8 +32,8 @@ namespace CSGSIWebClient.Controllers
             {
                 JWT jwt = new JWT()
                 {
-                    access_token = HttpContext.User.Claims.Where(c => c.Type == "AccessToken").FirstOrDefault().Value,
-                    refresh_token = HttpContext.User.Claims.Where(c => c.Type == "RefreshToken").FirstOrDefault().Value,
+                    AccessToken = HttpContext.User.Claims.Where(c => c.Type == "AccessToken").FirstOrDefault().Value,
+                    RefreshToken = HttpContext.User.Claims.Where(c => c.Type == "RefreshToken").FirstOrDefault().Value,
                 };
                 ViewBag.JWT = jwt;
             }

@@ -22,8 +22,8 @@
     @if (@ViewBag.JWT != null)
     {
         <script type="text/javascript">
-            localStorage.setItem("accessToken", "@ViewBag.JWT.access_token");
-            localStorage.setItem("refreshToken", "@ViewBag.JWT.refresh_token");
+            localStorage.setItem("accessToken", "@ViewBag.JWT.AccessToken");
+            localStorage.setItem("refreshToken", "@ViewBag.JWT.RefreshToken");
         </script>
     }
 
