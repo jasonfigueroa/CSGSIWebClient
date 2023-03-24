@@ -15,44 +15,65 @@ namespace CSGSIWebClient.Controllers
 {
     public class RegisterController : Controller
     {
-        private Register _register;
-        private RegisterViewModel _registerViewModel;
+        private readonly IApiService _apiService;
+        private readonly ISteamApiService _steamApiService;
 
-        public RegisterController()
+        public RegisterController(IApiService apiService, ISteamApiService steamApiService)
         {
-            _register = new Register();
-            _registerViewModel = new RegisterViewModel();
+            _apiService = apiService;
+            _steamApiService = steamApiService;
         }
 
         public IActionResult Index()
         {
-            return View(_registerViewModel);
+            return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(RegisterViewModel registerViewModel)
         {
+            bool isSteamIdInDb = _apiService.IsSteamIdInDb(registerViewModel.SteamId);
+            bool isExistingUsername = _apiService.IsUsernameInDb(registerViewModel.Username);
+
+            var steamId = new SteamId
+            {
+                Id = registerViewModel.SteamId
+            };
+
+            var steamPlayer = _steamApiService.GetSteamPlayerAsync(steamId).GetAwaiter().GetResult();
+
+            bool isExistingSteamPlayer = steamPlayer != null;
+
+            // Model validation
             if (ModelState.IsValid)
             {
-                _register.Username = registerViewModel.Username;
-                _register.SteamId = registerViewModel.SteamId;
-                _register.Password = registerViewModel.Password;
-
-                APIInterface.RegisterUser(_register);
-
-                var claims = new List<Claim>
+                // Data validation
+                if (!isSteamIdInDb && !isExistingUsername && isExistingSteamPlayer)
+                {
+                    var request = new RegisterRequest
                     {
-                        new Claim(ClaimTypes.Name, _register.SteamId)
+                        Username = registerViewModel.Username,
+                        SteamId = registerViewModel.SteamId,
+                        Password = registerViewModel.Password
                     };
 
-                var userIdentity = new ClaimsIdentity(claims, "login");
+                    _apiService.RegisterUser(request);
 
-                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, request.SteamId)
+                    };
 
-                await HttpContext.SignInAsync(principal);
+                    var userIdentity = new ClaimsIdentity(claims, "login");
 
-                return RedirectToAction("Index", "Matches");
+                    ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+
+                    await HttpContext.SignInAsync(principal);
+
+                    return RedirectToAction("Index", "Matches");
+                }
             }
+
             return View(registerViewModel);
         }
 

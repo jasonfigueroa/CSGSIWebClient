@@ -4,9 +4,9 @@
 
 <div id="profile-div">
     <div id="profile-steam-div">
-        <h1>@SteamApiInterface.GetSteamPlayers(new SteamId { steam_id = User.Identity.Name })[0].personaname</h1>
+        <h1>@SteamApiService.GetSteamPlayer(new SteamId { Id = User.Identity.Name }).PersonaName</h1>
 
-        <img src="@SteamApiInterface.GetSteamPlayers(new SteamId { steam_id = User.Identity.Name})[0].avatarfull" />
+        <img src="@SteamApiService.GetSteamPlayer(new SteamId { Id = User.Identity.Name}).AvatarFull" />
     </div>
 
     <div id="profile-summary-div">

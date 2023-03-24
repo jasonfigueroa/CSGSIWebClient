@@ -3,11 +3,10 @@
     <form asp-area="" asp-controller="Logout" asp-action="Index" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <img id="nav-avatar" src="@SteamApiInterface.GetSteamPlayers(new SteamId { steam_id = User.Identity.Name})[0].avatar" />
+                <img id="nav-avatar" src="@SteamApiService.GetSteamPlayer(new SteamId { Id = User.Identity.Name}).Avatar" />
             </li>
             <li>
-                @*<a asp-area="" asp-controller="Profile" asp-action="Index" title="Profile">@SteamApiInterface.GetSteamPlayers()[0].personaname@UserService.GetUser().username</a>*@
-                <a asp-area="" asp-controller="Profile" asp-action="Index" title="Profile">@SteamApiInterface.GetSteamPlayers(new SteamId { steam_id = User.Identity.Name })[0].personaname@*@UserService.GetUser().username*@</a>
+                <a asp-area="" asp-controller="Profile" asp-action="Index" title="Profile">@SteamApiService.GetSteamPlayer(new SteamId { Id = User.Identity.Name }).PersonaName</a>
 
             </li>
             <li>

@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using CSGSIWebClient.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using CSGSIWebClient.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,16 +16,26 @@ namespace CSGSIWebClient.Controllers
 {
     public class LoginController : Controller
     {
-        private UserLogin _userLogin;
+        private readonly IApiService _apiService;
+        private readonly string _url;
 
-        public LoginController()
+        public LoginController(IApiService apiService, IConfiguration config)
         {
-            _userLogin = new UserLogin(); // not sure if this is used anywhere
+            _apiService = apiService;
+
+            if (IsDevelopmentEnvironment())
+            {
+                _url = config["Kestrel:Endpoints:Http"];
+            }
+            else
+            {
+                _url = config["Kestrel:Endpoints:Https"];
+            }
         }
 
         public IActionResult Index()
         {
-            return View(_userLogin);
+            return View();
         }
 
         [HttpPost]
@@ -39,19 +45,19 @@ namespace CSGSIWebClient.Controllers
             {
                 User user = new User()
                 {
-                    username = userLogin.username,
-                    password = userLogin.password
+                    Username = userLogin.username,
+                    Password = userLogin.password
                 };
 
-                JWT jwt = APIInterface.LoginUser(new User { username = user.username, password = user.password });
+                JWT jwt = _apiService.LoginUser(user);
 
-                if (jwt != null)
+                if (jwt.access_token != null && jwt.refresh_token != null)
                 {
-                    SteamId steamId = APIInterface.GetSteamId(jwt); // fix the casing on the User properties
+                    SteamId steamId = _apiService.GetSteamIdAsync(jwt).GetAwaiter().GetResult();
 
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, steamId.steam_id),
+                        new Claim(ClaimTypes.Name, steamId.Id),
                         new Claim("AccessToken", jwt.access_token),
                         new Claim("RefreshToken", jwt.refresh_token)
                     };
@@ -75,8 +81,8 @@ namespace CSGSIWebClient.Controllers
                         return Redirect($"{returnUrl}?routedFromLogin=1");
                     }
                     else
-                    {
-                        return Redirect("http://localhost:5000/Matches?routedFromLogin=1");
+                    {                        
+                        return Redirect($"{_url}/Matches?routedFromLogin=1");
                     }
                 }
             }
@@ -84,13 +90,10 @@ namespace CSGSIWebClient.Controllers
             return View(userLogin);
         }
 
-        private bool LoginUser(string username, string password)
+        private bool IsDevelopmentEnvironment()
         {
-            if (APIInterface.IsValidUser(new User { username = username, password = password }))
-            {
-                return true;
-            }
-            return false;
+            string currentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            return string.Equals("development", currentEnvironment, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
