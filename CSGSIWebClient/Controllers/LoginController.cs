@@ -45,8 +45,8 @@ namespace CSGSIWebClient.Controllers
             {
                 User user = new User()
                 {
-                    Username = userLogin.username,
-                    Password = userLogin.password
+                    Username = userLogin.Username,
+                    Password = userLogin.Password
                 };
 
                 JWT jwt = _apiService.LoginUser(user);
@@ -68,7 +68,7 @@ namespace CSGSIWebClient.Controllers
                     {
                         // AllowRefresh = true, // Not sure if this is for JWT Refresh Tokens
                         ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7),
-                        IsPersistent = userLogin.stayLoggedIn ? true : false,
+                        IsPersistent = userLogin.StayLoggedIn ? true : false,
                         IssuedUtc = DateTime.Now
                     };
 

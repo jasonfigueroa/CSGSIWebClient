@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace CSGSIWebClient.Models
 {
@@ -7,14 +8,17 @@ namespace CSGSIWebClient.Models
         [Required]
         [StringLength(100, ErrorMessage = "The provided username is too long")]
         [Display(Name = "Username")]
-        public string username { get; set; }
+        [JsonProperty("username")]
+        public string Username { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The provided password is too long")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        public string password { get; set; }
+        [JsonProperty("password")]
+        public string Password { get; set; }
 
-        public bool stayLoggedIn { get; set; } = false;
+        [JsonProperty("stayLoggedIn")]
+        public bool StayLoggedIn { get; set; } = false;
     }
 }

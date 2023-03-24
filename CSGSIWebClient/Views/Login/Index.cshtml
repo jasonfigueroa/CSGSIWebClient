@@ -9,24 +9,24 @@
 
 <form onsubmit="return onSubmitClick(this)" asp-action="Index" method="post" class="form-horizontal" role="form" asp-route-returnurl="@returnUrl">
     <div class="form-group">
-        <label asp-for="username" class="col-md-2 control-label"></label>
+        <label asp-for="Username" class="col-md-2 control-label"></label>
         <div class="col-md-5">
-            <input asp-for="username" class="form-control" id="input-username" />
-            <span asp-validation-for="username" class="text-danger"></span>
+            <input asp-for="Username" class="form-control" id="input-username" />
+            <span asp-validation-for="Username" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label asp-for="password" class="col-md-2 control-label"></label>
+        <label asp-for="Password" class="col-md-2 control-label"></label>
         <div class="col-md-5">
-            <input asp-for="password" class="form-control" id="input-password" />
-            <span asp-validation-for="password" class="text-danger"></span>
+            <input asp-for="Password" class="form-control" id="input-password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-      <label asp-for="stayLoggedIn" class="col-md-2 control-label">Stay Logged In</label>
-        <div class="col-md-5"><input asp-for="stayLoggedIn" id="stay-logged-in" type="checkbox" ></div>
+      <label asp-for="StayLoggedIn" class="col-md-2 control-label">Stay Logged In</label>
+        <div class="col-md-5"><input asp-for="StayLoggedIn" id="stay-logged-in" type="checkbox" ></div>
     </div>
 
     <div class="form-group">
