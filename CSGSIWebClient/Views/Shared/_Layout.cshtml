@@ -1,4 +1,4 @@
-﻿@inject IOptions<AppSettings> AppSettingsOptions
+﻿@inject AppSettings AppSettings
 
 <!DOCTYPE html>
 
@@ -60,13 +60,15 @@
 
                         @if (isDevelopmentEnvironment)
                         {
-                            url = @AppSettingsOptions.Value.Kestrel.Endpoints.Http.Url;
+                            url = AppSettings.Kestrel.Endpoints.Http.Url;
                         }
                         else
                         {
-                            url = @AppSettingsOptions.Value.Kestrel.Endpoints.Https.Url;
+                            url = AppSettings.Kestrel.Endpoints.Https.Url;
                         }
-                        
+
+                        url += "/downloads/setup_CSGSI_Stat_Trakr.msi";
+
                         <li><a asp-area="" asp-controller="Matches" asp-action="Index">Stats</a></li>
                         <li><a href="@url">Download</a>
                         </li>

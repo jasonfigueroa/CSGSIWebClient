@@ -1,6 +1,5 @@
 ﻿using CSGSIWebClient.Models;
 using CSGSIWebClient.Models.AppSettings;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
