@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
+using CSGSIWebClient.Models.AppSettings;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,17 +20,17 @@ namespace CSGSIWebClient.Controllers
         private readonly IApiService _apiService;
         private readonly string _url;
 
-        public LoginController(IApiService apiService, IConfiguration config)
+        public LoginController(IApiService apiService, AppSettings appSettings)
         {
             _apiService = apiService;
 
             if (IsDevelopmentEnvironment())
             {
-                _url = config["Kestrel:Endpoints:Http"];
+                _url = appSettings.Kestrel.Endpoints.Http.Url;
             }
             else
             {
-                _url = config["Kestrel:Endpoints:Https"];
+                _url = appSettings.Kestrel.Endpoints.Https.Url;
             }
         }
 

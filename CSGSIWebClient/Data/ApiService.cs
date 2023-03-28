@@ -1,4 +1,5 @@
 ﻿using CSGSIWebClient.Models;
+using CSGSIWebClient.Models.AppSettings;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -12,9 +13,9 @@ namespace CSGSIWebClient.Data
         private readonly string _apiUrl;
         private readonly HttpClient _httpClient;
 
-        public ApiService(IConfiguration configuration)
+        public ApiService(AppSettings appSettings)
         {
-            _apiUrl = configuration["Api:Url"];
+            _apiUrl = appSettings.Api.Url;
             _httpClient = new HttpClient();
         }
 

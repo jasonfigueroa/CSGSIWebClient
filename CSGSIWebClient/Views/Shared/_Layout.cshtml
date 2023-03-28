@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IOptions<AppSettings> AppSettingsOptions
+
+<!DOCTYPE html>
 
 <html>
 
@@ -52,12 +54,22 @@
                     <li><a asp-area="" asp-controller="TechnicalDetails" asp-action="Index">Technical Details</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
+                        string url;
+                        string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                        bool isDevelopmentEnvironment = string.Equals("development", environment, StringComparison.OrdinalIgnoreCase);
+
+                        @if (isDevelopmentEnvironment)
+                        {
+                            url = @AppSettingsOptions.Value.Kestrel.Endpoints.Http.Url;
+                        }
+                        else
+                        {
+                            url = @AppSettingsOptions.Value.Kestrel.Endpoints.Https.Url;
+                        }
+                        
                         <li><a asp-area="" asp-controller="Matches" asp-action="Index">Stats</a></li>
-                        <li><a
-                            href="https://csgsistattrakr.jasonfigueroa.io/downloads/setup_CSGSI_Stat_Trakr.msi">Download</a>
+                        <li><a href="@url">Download</a>
                         </li>
-                        @*<li><a
-                            href="https://csgostattrakr.jasonfigueroa.io/downloads/setup_CSGO_Stat_Trakr.msi">Download</a></li>*@
                     }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
