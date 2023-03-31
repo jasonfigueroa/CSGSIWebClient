@@ -4,5 +4,6 @@
     {
         public Kestrel Kestrel { get; set; }
         public Api Api { get; set; }
+        public DemoSite DemoSite { get; set; }
     }
 }

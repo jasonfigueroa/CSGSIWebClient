@@ -1,4 +1,6 @@
-﻿@{
+﻿@inject AppSettings AppSettings
+
+@{
     ViewBag.Title = "Welcome";
 }
 <div class="center-text col-md-8 col-md-offset-2">
@@ -8,6 +10,10 @@
     {
         <p class="lead">
             <a asp-controller="Register" asp-action="Index" class="btn btn-lg btn-default">Register</a>
+        </p>
+
+        <p class="lead">
+            <a href="@AppSettings.DemoSite.Url" class="btn btn-lg btn-default">Demo</a>
         </p>
     }
 </div>
